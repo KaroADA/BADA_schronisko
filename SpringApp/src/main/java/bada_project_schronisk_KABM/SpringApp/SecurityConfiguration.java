@@ -44,7 +44,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/main").authenticated() // Require authentication for /main
                 .requestMatchers("/main_admin").hasRole("ADMIN") // Restrict /main_admin to ADMIN role
                 .requestMatchers("/main_user").hasRole("USER") // Restrict /main_user to USER role
-                .anyRequest().authenticated() // All other requests require authentication
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login") // Custom login page
