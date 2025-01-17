@@ -37,20 +37,24 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests() // Replaces `authorizeRequests()`
-                .requestMatchers("/", "/index").permitAll() // Use `requestMatchers` instead of `antMatchers`
-                .requestMatchers("/resources/**", "/static/**", "/webjars/**").permitAll() // Allow access to static resources
-                .requestMatchers("/main").authenticated() // Require authentication for "/main"
+                .authorizeHttpRequests()
+                .requestMatchers("/", "/index").permitAll() // Allow access to index page
+                .requestMatchers("/resources/**", "/static/**", "/webjars/**").permitAll() // Allow static resources
+                .requestMatchers("/main").authenticated() // Require authentication for /main
+                .requestMatchers("/main_admin").hasRole("ADMIN") // Restrict /main_admin to ADMIN role
+                .requestMatchers("/main_user").hasRole("USER") // Restrict /main_user to USER role
                 .anyRequest().authenticated() // All other requests require authentication
                 .and()
                 .formLogin()
-                .loginPage("/login") // Specify custom login page
+                .loginPage("/login") // Custom login page
+                .defaultSuccessUrl("/main", true) // Redirect to /main after successful login
                 .permitAll() // Allow everyone to access the login page
                 .and()
                 .logout()
                 .logoutUrl("/logout") // Specify logout URL
-                .logoutSuccessUrl("/index") // Redirect to "/index" after logout
-                .permitAll();
+                .logoutSuccessUrl("/index") // Redirect to /index after logout
+                .permitAll(); // Allow everyone to access logout functionality
+
 
 
         return http.build();
