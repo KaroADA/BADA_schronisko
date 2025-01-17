@@ -2,6 +2,7 @@ package bada_project_schronisk_KABM.SpringApp;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -51,7 +52,7 @@ public class SecurityConfiguration {
                 .permitAll() // Allow everyone to access the login page
                 .and()
                 .logout()
-                .logoutUrl("/logout") // Specify logout URL
+                .logoutUrl("/index") // Specify logout URL
                 .logoutSuccessUrl("/index") // Redirect to /index after logout
                 .permitAll(); // Allow everyone to access logout functionality
 
