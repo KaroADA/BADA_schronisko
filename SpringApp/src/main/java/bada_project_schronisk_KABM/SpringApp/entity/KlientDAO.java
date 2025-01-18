@@ -1,4 +1,4 @@
-package bada_project_schronisk_KABM.SpringApp;
+package bada_project_schronisk_KABM.SpringApp.entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

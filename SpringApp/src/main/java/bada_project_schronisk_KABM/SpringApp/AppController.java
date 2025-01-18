@@ -1,5 +1,6 @@
 package bada_project_schronisk_KABM.SpringApp;
 
+import bada_project_schronisk_KABM.SpringApp.entity.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -36,18 +37,46 @@ public class AppController implements WebMvcConfigurer {
         }
 
         @Autowired
-        private KlientDAO klientDao;
+        private PracownikDAO pracownikDAO;
+        @Autowired
+        private KlatkaDAO klatkaDAO;
+        @Autowired
+        private ZwierzeDAO zwierzeDAO;
+        @Autowired
+        private KlientDAO klientDAO;
+
 
         @RequestMapping(value={"/main_admin"})
         public String showAdminPage(Model model) {
-            List<Klient> klienci = klientDao.list();
+            List<Pracownik> pracownicy = pracownikDAO.list();
+            List<Klatka> klatki = klatkaDAO.list();
+            List<Zwierze> zwierzeta = zwierzeDAO.list();
+            List<Klient> klienci = klientDAO.list();
+
+            model.addAttribute("pracownicy", pracownicy);
+            model.addAttribute("klatki", klatki);
+            model.addAttribute("zwierzeta", zwierzeta);
             model.addAttribute("klienci", klienci);
-            System.out.println(klienci);
             return "admin/main_admin";
         }
         @RequestMapping(value={"/main_user"})
         public String showUserPage(Model model) {
             return "user/main_user";
+        }
+
+        @RequestMapping("/admin/addPracownik")
+        public String addPracownik(Pracownik pracownik, Model model) {
+            System.out.println("KSAHJFG");
+            pracownikDAO.save(pracownik);
+
+            List<Pracownik> pracownicy = pracownikDAO.list();
+            List<Klatka> klatki = klatkaDAO.list();
+            List<Zwierze> zwierzeta = zwierzeDAO.list();
+
+            model.addAttribute("pracownicy", pracownicy);
+            model.addAttribute("klatki", klatki);
+            model.addAttribute("zwierzeta", zwierzeta);
+            return "admin/main_admin";
         }
     }
 }

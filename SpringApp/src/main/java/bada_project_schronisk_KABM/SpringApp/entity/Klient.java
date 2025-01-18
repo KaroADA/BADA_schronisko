@@ -1,4 +1,4 @@
-package bada_project_schronisk_KABM.SpringApp;
+package bada_project_schronisk_KABM.SpringApp.entity;
 
 public class Klient {
     private int idKlienta;
