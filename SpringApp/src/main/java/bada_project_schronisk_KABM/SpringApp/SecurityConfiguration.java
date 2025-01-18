@@ -42,8 +42,8 @@ public class SecurityConfiguration {
                 .requestMatchers("/", "/index").permitAll() // Allow access to index page
                 .requestMatchers("/resources/**", "/static/**", "/css/**", "/webjars/**").permitAll() // Allow static resources
                 .requestMatchers("/main").authenticated() // Require authentication for /main
-                .requestMatchers("/main_admin").hasRole("ADMIN") // Restrict /main_admin to ADMIN role
-                .requestMatchers("/main_user").hasRole("USER") // Restrict /main_user to USER role
+                .requestMatchers("*admin*").hasRole("ADMIN") // Restrict /main_admin to ADMIN role
+                .requestMatchers("*user*").hasRole("USER") // Restrict /main_user to USER role
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

@@ -35,7 +35,8 @@ public class AppController implements WebMvcConfigurer {
                 return "redirect:/index";
             }
         }
-
+        @Autowired
+        private SchroniskoDAO schroniskoDAO;
         @Autowired
         private PracownikDAO pracownikDAO;
         @Autowired
@@ -46,37 +47,36 @@ public class AppController implements WebMvcConfigurer {
         private KlientDAO klientDAO;
 
 
-        @RequestMapping(value={"/main_admin"})
+        @RequestMapping("/main_admin")
         public String showAdminPage(Model model) {
+            List<Schronisko> schroniska = schroniskoDAO.list();
             List<Pracownik> pracownicy = pracownikDAO.list();
             List<Klatka> klatki = klatkaDAO.list();
             List<Zwierze> zwierzeta = zwierzeDAO.list();
             List<Klient> klienci = klientDAO.list();
 
+            model.addAttribute("schroniska", schroniska);
             model.addAttribute("pracownicy", pracownicy);
             model.addAttribute("klatki", klatki);
             model.addAttribute("zwierzeta", zwierzeta);
             model.addAttribute("klienci", klienci);
             return "admin/main_admin";
         }
-        @RequestMapping(value={"/main_user"})
+        @RequestMapping("/main_user")
         public String showUserPage(Model model) {
             return "user/main_user";
         }
 
         @RequestMapping("/admin/addPracownik")
         public String addPracownik(Pracownik pracownik, Model model) {
-            System.out.println("KSAHJFG");
             pracownikDAO.save(pracownik);
+            return showAdminPage(model);
+        }
 
-            List<Pracownik> pracownicy = pracownikDAO.list();
-            List<Klatka> klatki = klatkaDAO.list();
-            List<Zwierze> zwierzeta = zwierzeDAO.list();
-
-            model.addAttribute("pracownicy", pracownicy);
-            model.addAttribute("klatki", klatki);
-            model.addAttribute("zwierzeta", zwierzeta);
-            return "admin/main_admin";
+        @RequestMapping("/admin/addSchronisko")
+        public String addSchronisko(Schronisko schronisko, Model model) {
+            schroniskoDAO.save(schronisko);
+            return showAdminPage(model);
         }
     }
 }
