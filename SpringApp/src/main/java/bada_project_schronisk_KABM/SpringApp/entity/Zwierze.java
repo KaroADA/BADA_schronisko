@@ -9,13 +9,16 @@ public class Zwierze {
     private Integer wiek;
     private String stanZdrowia;
     private Date dataPrzyjecia;
+
+    private String plec;
+    private String url_zdjecia;
     private int idKlatki; // Zamiast encji Pomieszczenie - id
     private int idAdopcji; // Zamiast encji Adopcja - id
 
     // Konstruktory (pamiętaj o konstruktorze bezargumentowym)
     public Zwierze() {}
 
-    public Zwierze(int idZwierzecia, String imie, String gatunek, Integer wiek, String stanZdrowia, Date dataPrzyjecia, int idKlatki, int idAdopcji) {
+    public Zwierze(int idZwierzecia, String imie, String gatunek, Integer wiek, String stanZdrowia, Date dataPrzyjecia, int idKlatki, int idAdopcji, String url_zdjecia, String plec) {
         this.idZwierzecia = idZwierzecia;
         this.imie = imie;
         this.gatunek = gatunek;
@@ -24,6 +27,8 @@ public class Zwierze {
         this.dataPrzyjecia = dataPrzyjecia;
         this.idKlatki = idKlatki;
         this.idAdopcji = idAdopcji;
+        this.url_zdjecia = url_zdjecia;
+        this.plec = plec;
     }
 
     // Gettery i Settery
@@ -44,6 +49,22 @@ public class Zwierze {
     public int getIdAdopcji() { return idAdopcji; }
     public void setIdAdopcji(int idAdopcji) { this.idAdopcji = idAdopcji; }
 
+    public String getPlec() {
+        return plec;
+    }
+
+    public String getUrl_zdjecia() {
+        return url_zdjecia;
+    }
+
+    public void setPlec(String plec) {
+        this.plec = plec;
+    }
+
+    public void setUrl_zdjecia(String url_zdjecia) {
+        this.url_zdjecia = url_zdjecia;
+    }
+
     @Override
     public String toString() {
         return "Zwierze{" +
@@ -53,6 +74,8 @@ public class Zwierze {
                 ", wiek=" + wiek +
                 ", stanZdrowia='" + stanZdrowia + '\'' +
                 ", dataPrzyjecia=" + dataPrzyjecia +
+                ", plec='" + plec + '\'' +
+                ", url_zdjecia='" + url_zdjecia + '\'' +
                 ", idKlatki=" + idKlatki +
                 ", idAdopcji=" + idAdopcji +
                 '}';

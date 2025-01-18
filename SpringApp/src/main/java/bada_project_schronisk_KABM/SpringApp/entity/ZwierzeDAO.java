@@ -18,7 +18,7 @@ public class ZwierzeDAO {
     }
 
     public List<Zwierze> list() {
-        String sql = "SELECT id_zwierzecia, imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji FROM Zwierzeta";
+        String sql = "SELECT id_zwierzecia, imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji, url_zdjecia, plec FROM Zwierzeta";
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Zwierze.class));
     }
 

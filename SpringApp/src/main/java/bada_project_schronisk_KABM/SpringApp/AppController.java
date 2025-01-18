@@ -54,6 +54,7 @@ public class AppController implements WebMvcConfigurer {
             List<Klatka> klatki = klatkaDAO.list();
             List<Zwierze> zwierzeta = zwierzeDAO.list();
             List<Klient> klienci = klientDAO.list();
+            System.out.println(zwierzeta);
 
             model.addAttribute("schroniska", schroniska);
             model.addAttribute("pracownicy", pracownicy);
@@ -65,6 +66,14 @@ public class AppController implements WebMvcConfigurer {
         @RequestMapping("/main_user")
         public String showUserPage(Model model) {
             return "user/main_user";
+        }
+
+        @RequestMapping(value={"/index"})
+        public String showIndexPage(Model model) {
+            List<Zwierze> zwierzeta = zwierzeDAO.list();
+            System.out.println(zwierzeta);
+            model.addAttribute("zwierzeta", zwierzeta);
+            return "/index";
         }
 
         @RequestMapping("/admin/addPracownik")
