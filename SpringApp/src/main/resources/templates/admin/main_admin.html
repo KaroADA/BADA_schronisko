@@ -71,6 +71,31 @@
             </form>
         </div>
 
+        <div class="col mt-5">
+            <table border="1">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Adres</th>
+                    <th>Email</th>
+                    <th>Telefon</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="klient : ${klienci}">
+                    <td th:text="${klient.idKlienta}"></td>
+                    <td th:text="${klient.imie}"></td>
+                    <td th:text="${klient.nazwisko}"></td>
+                    <td th:text="${klient.adres}"></td>
+                    <td th:text="${klient.email}"></td>
+                    <td th:text="${klient.telefon}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>
 
