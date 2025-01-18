@@ -81,6 +81,12 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc17</artifactId>
+			<version>23.6.0.24.10</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
