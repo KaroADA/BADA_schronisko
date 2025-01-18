@@ -8,17 +8,17 @@ public class Zwierze {
     private String gatunek;
     private Integer wiek;
     private String stanZdrowia;
-    private Date dataPrzyjecia;
+    private String dataPrzyjecia;
 
     private String plec;
-    private String url_zdjecia;
+    private String urlZdjecia;
     private int idKlatki; // Zamiast encji Pomieszczenie - id
     private int idAdopcji; // Zamiast encji Adopcja - id
 
     // Konstruktory (pamiętaj o konstruktorze bezargumentowym)
     public Zwierze() {}
 
-    public Zwierze(int idZwierzecia, String imie, String gatunek, Integer wiek, String stanZdrowia, Date dataPrzyjecia, int idKlatki, int idAdopcji, String url_zdjecia, String plec) {
+    public Zwierze(int idZwierzecia, String imie, String gatunek, Integer wiek, String stanZdrowia, String dataPrzyjecia, int idKlatki, int idAdopcji, String urlZdjecia, String plec) {
         this.idZwierzecia = idZwierzecia;
         this.imie = imie;
         this.gatunek = gatunek;
@@ -27,7 +27,7 @@ public class Zwierze {
         this.dataPrzyjecia = dataPrzyjecia;
         this.idKlatki = idKlatki;
         this.idAdopcji = idAdopcji;
-        this.url_zdjecia = url_zdjecia;
+        this.urlZdjecia = urlZdjecia;
         this.plec = plec;
     }
 
@@ -42,8 +42,8 @@ public class Zwierze {
     public void setWiek(Integer wiek) { this.wiek = wiek; }
     public String getStanZdrowia() { return stanZdrowia; }
     public void setStanZdrowia(String stanZdrowia) { this.stanZdrowia = stanZdrowia; }
-    public Date getDataPrzyjecia() { return dataPrzyjecia; }
-    public void setDataPrzyjecia(Date dataPrzyjecia) { this.dataPrzyjecia = dataPrzyjecia; }
+    public String getDataPrzyjecia() { return dataPrzyjecia; }
+    public void setDataPrzyjecia(String dataPrzyjecia) { this.dataPrzyjecia = dataPrzyjecia; }
     public int getIdKlatki() { return idKlatki; }
     public void setIdKlatki(int idKlatki) { this.idKlatki = idKlatki; }
     public int getIdAdopcji() { return idAdopcji; }
@@ -53,16 +53,16 @@ public class Zwierze {
         return plec;
     }
 
-    public String getUrl_zdjecia() {
-        return url_zdjecia;
+    public String getUrlZdjecia() {
+        return urlZdjecia;
     }
 
     public void setPlec(String plec) {
         this.plec = plec;
     }
 
-    public void setUrl_zdjecia(String url_zdjecia) {
-        this.url_zdjecia = url_zdjecia;
+    public void setUrlZdjecia(String urlZdjecia) {
+        this.urlZdjecia = urlZdjecia;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class Zwierze {
                 ", stanZdrowia='" + stanZdrowia + '\'' +
                 ", dataPrzyjecia=" + dataPrzyjecia +
                 ", plec='" + plec + '\'' +
-                ", url_zdjecia='" + url_zdjecia + '\'' +
+                ", url_zdjecia='" + urlZdjecia + '\'' +
                 ", idKlatki=" + idKlatki +
                 ", idAdopcji=" + idAdopcji +
                 '}';

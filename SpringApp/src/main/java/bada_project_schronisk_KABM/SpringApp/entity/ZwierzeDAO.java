@@ -6,6 +6,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Repository
 public class ZwierzeDAO {
@@ -14,6 +18,7 @@ public class ZwierzeDAO {
     private JdbcTemplate jdbcTemplate;
 
     public ZwierzeDAO(JdbcTemplate jdbcTemplate) {
+        super();
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -30,7 +35,7 @@ public class ZwierzeDAO {
     public Zwierze get(int id) {
         String sql = "SELECT id_zwierzecia, imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji FROM Zwierzeta WHERE id_zwierzecia = ?";
         try {
-            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Zwierze.class), id);
+            return jdbcTemplate.queryForObject(sql,  new ZwierzeRowMapper(), id);
         } catch (org.springframework.dao.EmptyResultDataAccessException ex) {
             return null;
         }
@@ -49,5 +54,22 @@ public class ZwierzeDAO {
     public List<Zwierze> findByStatusAdopcji(String statusAdopcji) {
         String sql = "SELECT id_zwierzecia, imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji";
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Zwierze.class));
+    }
+
+
+    private static final class ZwierzeRowMapper implements RowMapper<Zwierze> {
+        @Override
+        public Zwierze mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Zwierze zwierze = new Zwierze();
+            zwierze.setIdZwierzecia(rs.getInt("id_zwierzecia"));
+            zwierze.setImie(rs.getString("imie"));
+            zwierze.setGatunek(rs.getString("gatunek"));
+            zwierze.setWiek(rs.getInt("wiek"));
+            zwierze.setStanZdrowia(rs.getString("stan_zdrowia"));
+            zwierze.setDataPrzyjecia(rs.getString("data_przyjecia"));
+            zwierze.setUrlZdjecia(rs.getString("url_zdjecia"));
+            zwierze.setPlec(rs.getString("plec"));
+            return zwierze;
+        }
     }
 }
