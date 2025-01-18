@@ -29,8 +29,8 @@ public class ZwierzeDAO {
     }
 
     public void save(Zwierze zwierze) {
-        String sql = "INSERT INTO Zwierzeta (imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, zwierze.getImie(), zwierze.getGatunek(), zwierze.getWiek(), zwierze.getStanZdrowia(), zwierze.getDataPrzyjecia(), zwierze.getIdKlatki(), zwierze.getIdAdopcji());
+        String sql = "INSERT INTO Zwierzeta (imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji, url_zdjecia, plec) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, zwierze.getImie(), zwierze.getGatunek(), zwierze.getWiek(), zwierze.getStanZdrowia(), zwierze.getDataPrzyjecia(), zwierze.getIdKlatki(), zwierze.getIdAdopcji(), zwierze.getUrlZdjecia(), zwierze.getPlec());
     }
 
     public Zwierze get(int id) {
@@ -68,7 +68,7 @@ public class ZwierzeDAO {
             zwierze.setGatunek(rs.getString("gatunek"));
             zwierze.setWiek(rs.getInt("wiek"));
             zwierze.setStanZdrowia(rs.getString("stan_zdrowia"));
-            zwierze.setDataPrzyjecia(rs.getString("data_przyjecia"));
+            zwierze.setDataPrzyjecia(rs.getDate("data_przyjecia"));
             zwierze.setUrlZdjecia(rs.getString("url_zdjecia"));
             zwierze.setPlec(rs.getString("plec"));
             zwierze.setIdKlatki(rs.getInt("id_klatki"));

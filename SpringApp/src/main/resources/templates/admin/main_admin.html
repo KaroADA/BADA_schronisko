@@ -208,6 +208,56 @@
         </div>
 
         <div class="col-md-12 mt-3">
+            <h5>
+                <a href="#" class="toggle-form" data-target="#zwierzeForm">Dodaj Zwierzę (rozwiń/zwiń)</a>
+            </h5>
+            <div id="zwierzeForm" class="collapsible-form" style="display: none;">
+                <form th:action="@{/admin/addZwierze}" method="post">
+                    <div class="form-group">
+                        <label for="imie">Imię:</label>
+                        <input type="text" class="form-control" id="imie" name="imie" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gatunek">Gatunek:</label>
+                        <input type="text" class="form-control" id="gatunek" name="gatunek" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="wiek">Wiek:</label>
+                        <input type="number" class="form-control" id="wiek" name="wiek">
+                    </div>
+                    <div class="form-group">
+                        <label for="stanZdrowia">Stan Zdrowia:</label>
+                        <input type="text" class="form-control" id="stanZdrowia" name="stanZdrowia" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dataPrzyjecia">Data Przyjęcia:</label>
+                        <input type="date" class="form-control" id="dataPrzyjecia" name="dataPrzyjecia" @DateTimeFormat(pattern="yyyy-MM-dd") required>
+                    </div>
+                    <div class="form-group">
+                        <label for="idKlatki">ID Klatki:</label>
+                        <input type="number" class="form-control" id="idKlatki" name="idKlatki" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="idAdopcji">ID Adopcji:</label>
+                        <input type="number" class="form-control" id="idAdopcji" name="idAdopcji">
+                    </div>
+                    <div class="form-group">
+                        <label for="urlZdjecia">URL Zdjęcia:</label>
+                        <input type="text" class="form-control" id="urlZdjecia" name="urlZdjecia">
+                    </div>
+                    <div class="form-group">
+                        <label for="plec">Płeć:</label>
+                        <select class="form-control" id="plec" name="plec">
+                            <option value="Samiec">Samiec</option>
+                            <option value="Samica">Samica</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Dodaj</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-12 mt-3">
             <h2>Klienci</h2>
             <table class="table table-striped">
                 <thead>

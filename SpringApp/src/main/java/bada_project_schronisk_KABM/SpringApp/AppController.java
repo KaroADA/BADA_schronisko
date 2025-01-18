@@ -94,5 +94,12 @@ public class AppController implements WebMvcConfigurer {
             schroniskoDAO.delete(id);
             return showAdminPage(model);
         }
+
+        @RequestMapping("/admin/addZwierze")
+        public String addZwierze(Zwierze zwierze, Model model) {
+            System.out.println("Saving " + zwierze);
+            zwierzeDAO.save(zwierze);
+            return showAdminPage(model);
+        }
     }
 }
