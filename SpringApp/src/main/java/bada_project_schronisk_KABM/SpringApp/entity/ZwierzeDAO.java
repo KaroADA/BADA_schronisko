@@ -24,7 +24,8 @@ public class ZwierzeDAO {
 
     public List<Zwierze> list() {
         String sql = "SELECT id_zwierzecia, imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji, url_zdjecia, plec FROM Zwierzeta";
-        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Zwierze.class));
+        System.out.println("list kutwa" + sql);
+        return jdbcTemplate.query(sql, new ZwierzeRowMapper());
     }
 
     public void save(Zwierze zwierze) {
@@ -57,9 +58,10 @@ public class ZwierzeDAO {
     }
 
 
-    private static final class ZwierzeRowMapper implements RowMapper<Zwierze> {
+    public class ZwierzeRowMapper implements RowMapper<Zwierze> {
         @Override
         public Zwierze mapRow(ResultSet rs, int rowNum) throws SQLException {
+            System.out.println(rs.getString("imie"));
             Zwierze zwierze = new Zwierze();
             zwierze.setIdZwierzecia(rs.getInt("id_zwierzecia"));
             zwierze.setImie(rs.getString("imie"));
@@ -69,6 +71,8 @@ public class ZwierzeDAO {
             zwierze.setDataPrzyjecia(rs.getString("data_przyjecia"));
             zwierze.setUrlZdjecia(rs.getString("url_zdjecia"));
             zwierze.setPlec(rs.getString("plec"));
+            zwierze.setIdKlatki(rs.getInt("id_klatki"));
+            zwierze.setIdAdopcji(rs.getInt("id_adopcji"));
             return zwierze;
         }
     }
