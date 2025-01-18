@@ -5,6 +5,7 @@
     <title>Welcome Page</title>
 
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
+    <link th:href="@{/css/style.css}" th:rel="stylesheet" />
 
 </head>
 
@@ -62,6 +63,21 @@
             <label style="font-size:30px">Welcome to the home page!</label>
             <div style="font-size:20px">If you want to login, click <a th:href="@{/main}"><b>here</b></a> or in the
                 upper right corner.
+            </div>
+
+            <div class="row row-cols-3">
+                <div class="col m-3 w-auto">
+                    <div class="card" id="card_filemon" style="width: 18rem; height: 100%;">
+                        <div class="card-img-top img_div">
+                            <img class="obrazek" id="img_filemon" src="https://cdn.discordapp.com/attachments/1231996397004394571/1330280433107341312/1471326-11-20230513064336-heres-can-get-cat-pay-attention.png?ex=678d67b2&is=678c1632&hm=c774ebc271f0bcffe545212d3a9f9ff38444d13e392882bde95e95314170e1d4&">
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title mb-1">Filemon ♂</h4>
+                            <h6 class="card-title mb-1">Wiek: 4</h6>
+                            <h6 class="card-title mb-3">Stan zdrowia: w trakcie leczenia</h6>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
