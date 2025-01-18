@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class SchroniskoDAO {
         jdbcTemplate.update(sql, schronisko.getNazwa(), schronisko.getAdres(), schronisko.getTelefon(), schronisko.getDataOtwarcia(), schronisko.getIdSchroniska());
     }
 
+    @Transactional
     public void delete(int id) {
         String sql = "DELETE FROM Schroniska WHERE id_schroniska = ?";
         jdbcTemplate.update(sql, id);

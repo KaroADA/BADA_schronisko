@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -68,7 +69,7 @@ public class AppController implements WebMvcConfigurer {
             return "user/main_user";
         }
 
-        @RequestMapping(value={"/index"})
+        @RequestMapping("/index")
         public String showIndexPage(Model model) {
             List<Zwierze> zwierzeta = zwierzeDAO.list();
             System.out.println(zwierzeta);
@@ -85,6 +86,12 @@ public class AppController implements WebMvcConfigurer {
         @RequestMapping("/admin/addSchronisko")
         public String addSchronisko(Schronisko schronisko, Model model) {
             schroniskoDAO.save(schronisko);
+            return showAdminPage(model);
+        }
+
+        @RequestMapping("/admin/removeSchronisko")
+        public String removeSchronisko(int id, Model model) {
+            schroniskoDAO.delete(id);
             return showAdminPage(model);
         }
     }

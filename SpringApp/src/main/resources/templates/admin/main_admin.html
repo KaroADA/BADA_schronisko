@@ -26,6 +26,65 @@
         </form>
         </div>
 
+        <div class="col-md-12 mt-3">
+            <h2>Schroniska</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nazwa</th>
+                    <th>Adres</th>
+                    <th>Telefon</th>
+                    <th>Data Otwarcia</th>
+                    <th>Akcje</th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="schronisko : ${schroniska}">
+                    <td th:text="${schronisko.idSchroniska}"></td>
+                    <td th:text="${schronisko.nazwa}"></td>
+                    <td th:text="${schronisko.adres}"></td>
+                    <td th:text="${schronisko.telefon}"></td>
+                    <td th:text="${#dates.format(schronisko.dataOtwarcia, 'yyyy-MM-dd')}"></td>
+                    <td>
+                        <form th:action="@{/admin/removeSchronisko}" method="post">
+                            <input type="hidden" name="id" th:value="${schronisko.idSchroniska}" />
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Czy na pewno chcesz usunąć to schronisko?')">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-12 mt-3">
+            <h5>
+                <a href="#" class="toggle-form" data-target="#schroniskoForm">Dodaj Schronisko (rozwiń/zwiń)</a>
+            </h5>
+            <div id="schroniskoForm" class="collapsible-form" style="display: none;">
+                <form th:action="@{/admin/addSchronisko}" method="post">
+                    <div class="form-group">
+                        <label for="nazwa">Nazwa:</label>
+                        <input type="text" class="form-control" id="nazwa" name="nazwa" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adres">Adres:</label>
+                        <input type="text" class="form-control" id="adres" name="adres" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefon">Telefon:</label>
+                        <input type="text" class="form-control" id="telefon" name="telefon" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dataOtwarcia">Data Otwarcia:</label>
+                        <input type="date" class="form-control" id="dataOtwarcia" name="dataOtwarcia" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Dodaj</button>
+                </form>
+            </div>
+        </div>
+
         <div class="col-md-12 mt-3"> <h2>Pracownicy</h2>
             <table class="table table-striped"> <thead>
             <tr>
@@ -55,38 +114,42 @@
         </div>
 
         <div class="col-md-12 mt-3">
-            <h2>Dodaj Pracownika</h2>
-            <form th:action="@{/admin/addPracownik}" method="post">
-                <div class="form-group">
-                    <label for="imie">Imię:</label>
-                    <input type="text" class="form-control" id="imie" name="imie" required>
-                </div>
-                <div class="form-group">
-                    <label for="nazwisko">Nazwisko:</label>
-                    <input type="text" class="form-control" id="nazwisko" name="nazwisko" required>
-                </div>
-                <div class="form-group">
-                    <label for="stanowisko">Stanowisko:</label>
-                    <input type="text" class="form-control" id="stanowisko" name="stanowisko" required>
-                </div>
-                <div class="form-group">
-                    <label for="wynagrodzenie">Wynagrodzenie:</label>
-                    <input type="number" step="0.01" class="form-control" id="wynagrodzenie" name="wynagrodzenie" required>
-                </div>
-                <div class="form-group">
-                    <label for="telefon">Telefon:</label>
-                    <input type="text" class="form-control" id="telefon" name="telefon">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" class="form-control" id="email" name="email">
-                </div>
-                <div class="form-group">
-                    <label for="idSchroniska">ID Schroniska:</label>
-                    <input type="number" class="form-control" id="idSchroniska" name="idSchroniska" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Dodaj</button>
-            </form>
+            <h5>
+                <a href="#" class="toggle-form" data-target="#pracownikForm">Dodaj Pracownika (rozwiń/zwiń)</a>
+            </h5>
+            <div id="pracownikForm" class="collapsible-form" style="display: none;">
+                <form th:action="@{/admin/addPracownik}" method="post">
+                    <div class="form-group">
+                        <label for="imie">Imię:</label>
+                        <input type="text" class="form-control" id="imie" name="imie" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nazwisko">Nazwisko:</label>
+                        <input type="text" class="form-control" id="nazwisko" name="nazwisko" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stanowisko">Stanowisko:</label>
+                        <input type="text" class="form-control" id="stanowisko" name="stanowisko" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="wynagrodzenie">Wynagrodzenie:</label>
+                        <input type="number" step="0.01" class="form-control" id="wynagrodzenie" name="wynagrodzenie" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefon">Telefon:</label>
+                        <input type="text" class="form-control" id="telefon" name="telefon">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="idSchroniska">ID Schroniska:</label>
+                        <input type="number" class="form-control" id="idSchroniska" name="idSchroniska" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Dodaj</button>
+                </form>
+            </div>
         </div>
 
         <div class="col-md-12 mt-3">
@@ -173,6 +236,22 @@
 
     </div>
 </div>
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".toggle-form").click(function(e) {
+            e.preventDefault();
+            var target = $(this).data("target"); // Pobieramy wartość atrybutu data-target
+            $(target).toggle(); // Rozwijamy/zwijamy odpowiedni formularz
 
+            if ($(target).is(":visible")) {
+                $(this).text($(this).text().replace("(rozwiń)", "(zwiń)"));
+            } else {
+                $(this).text($(this).text().replace("(zwiń)", "(rozwiń)"));
+            }
+
+        });
+    });
+</script>
 </body>
 </html>
