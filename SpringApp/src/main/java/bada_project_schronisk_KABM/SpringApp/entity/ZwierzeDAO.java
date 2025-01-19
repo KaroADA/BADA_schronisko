@@ -38,10 +38,10 @@ public class ZwierzeDAO {
     }
 
     public List<Zwierze> listByUser(Integer userId) {
-        String sql = "SELECT * " +
-                "FROM Zwierzeta z " +
-                "JOIN Adopcje a ON z.id_zwierzecia = a.id_zwierzecia " +
-                "JOIN Klienci k ON a.id_klienta = k.id_klienta " +
+        String sql = "SELECT z.id_zwierzecia, z.imie, z.gatunek, z.wiek, z.stan_zdrowia, z.data_przyjecia, z.id_klatki, z.plec, z.url_zdjecia, TRUNC(SYSDATE - z.data_przyjecia) AS dni_od_przyjecia, a.data_adopcji \n" +
+                "FROM Zwierzeta z \n" +
+                "JOIN Adopcje a ON z.id_zwierzecia = a.id_zwierzecia \n" +
+                "JOIN Klienci k ON a.id_klienta = k.id_klienta \n" +
                 "WHERE k.id_uzytkownika = " + userId.toString();
         return jdbcTemplate.query(sql, new ZwierzeRowMapper());
     }
@@ -113,6 +113,11 @@ public class ZwierzeDAO {
                 dniOdPrzyjecia=null;
             }
             zwierze.setDniOdPrzyjecia(dniOdPrzyjecia);
+            try {
+                zwierze.setDataAdopcji(rs.getDate("data_adopcji"));
+            } catch (SQLException e) {
+                zwierze.setDataAdopcji(null);
+            }
             return zwierze;
         }
     }
