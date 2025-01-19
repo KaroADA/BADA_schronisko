@@ -22,6 +22,11 @@ public class PracownikDAO {
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Pracownik.class));
     }
 
+    public List<Pracownik> listBySchroniskoId(int idSchroniska) {
+        String sql = "SELECT * FROM Pracownicy WHERE id_schroniska = ?";
+        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Pracownik.class), idSchroniska);
+    }
+
     public void save(Pracownik pracownik) {
         String sql = "INSERT INTO Pracownicy (imie, nazwisko, stanowisko, wynagrodzenie, telefon, email, id_schroniska) VALUES (?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, pracownik.getImie(), pracownik.getNazwisko(), pracownik.getStanowisko(), pracownik.getWynagrodzenie(), pracownik.getTelefon(), pracownik.getEmail(), pracownik.getIdSchroniska());

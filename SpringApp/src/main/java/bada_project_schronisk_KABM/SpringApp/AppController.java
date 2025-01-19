@@ -47,6 +47,18 @@ public class AppController implements WebMvcConfigurer {
         @Autowired
         private KlientDAO klientDAO;
 
+        @RequestMapping("/main_user")
+        public String showUserPage(Model model) {
+            return "user/main_user";
+        }
+
+        @RequestMapping("/index")
+        public String showIndexPage(Model model) {
+            List<Zwierze> zwierzeta = zwierzeDAO.list();
+            System.out.println(zwierzeta);
+            model.addAttribute("zwierzeta", zwierzeta);
+            return "/index";
+        }
 
         @RequestMapping("/main_admin")
         public String showAdminPage(Model model) {
@@ -64,23 +76,23 @@ public class AppController implements WebMvcConfigurer {
             model.addAttribute("klienci", klienci);
             return "admin/main_admin";
         }
-        @RequestMapping("/main_user")
-        public String showUserPage(Model model) {
-            return "user/main_user";
-        }
+        @RequestMapping("/admin/schronisko_admin/{id}")
+        public String showSchronisko(@PathVariable("id") int id, Model model) {
+            Schronisko schronisko = schroniskoDAO.get(id); // Pobierz schronisko po ID
+            if (schronisko == null) {
+                return "error"; // Obsługa przypadku, gdy schronisko nie istnieje
+            }
 
-        @RequestMapping("index")
-        public String showIndexPage(Model model) {
-            List<Zwierze> zwierzeta = zwierzeDAO.list();
-            System.out.println(zwierzeta);
+            List<Pracownik> pracownicy = pracownikDAO.listBySchroniskoId(id);
+            List<Klatka> klatki = klatkaDAO.listBySchroniskoId(id);
+            List<Zwierze> zwierzeta = zwierzeDAO.listBySchroniskoId(id);
+
+            model.addAttribute("schronisko", schronisko);
+            model.addAttribute("pracownicy", pracownicy);
+            model.addAttribute("klatki", klatki);
             model.addAttribute("zwierzeta", zwierzeta);
-            return "index";
-        }
 
-        @RequestMapping("/admin/addPracownik")
-        public String addPracownik(Pracownik pracownik, Model model) {
-            pracownikDAO.save(pracownik);
-            return showAdminPage(model);
+            return "admin/schronisko_admin"; // Zwróć widok schronisko_admin.html
         }
 
         @RequestMapping("/admin/addSchronisko")
@@ -95,11 +107,43 @@ public class AppController implements WebMvcConfigurer {
             return showAdminPage(model);
         }
 
+        @RequestMapping("/admin/addPracownik")
+        public String addPracownik(Pracownik pracownik, Model model) {
+            pracownikDAO.save(pracownik);
+            return showSchronisko(pracownik.getIdSchroniska(), model);
+        }
+        @RequestMapping("/admin/removePracownik")
+        public String removePracownik(int id, Model model) {
+            int schr = pracownikDAO.get(id).getIdSchroniska();
+            pracownikDAO.delete(id);
+            return showSchronisko(schr, model);
+        }
+
         @RequestMapping("/admin/addZwierze")
         public String addZwierze(Zwierze zwierze, Model model) {
             System.out.println("Saving " + zwierze);
             zwierzeDAO.save(zwierze);
-            return showAdminPage(model);
+            return showSchronisko(klatkaDAO.get(zwierze.getIdKlatki()).getIdSchroniska(), model);
+        }
+        @RequestMapping("/admin/removeZwierze")
+        public String removeZwierze(int id, Model model) {
+            int schr = klatkaDAO.get(zwierzeDAO.get(id).getIdKlatki()).getIdSchroniska();
+            zwierzeDAO.delete(id);
+            return showSchronisko(schr, model);
+        }
+
+        @RequestMapping("/admin/addKlatka")
+        public String addKlatka(Klatka klatka, Model model) {
+            System.out.println("Saving " + klatka);
+            klatkaDAO.save(klatka);
+            return showSchronisko(klatka.getIdSchroniska(), model);
+        }
+
+        @RequestMapping("/admin/removeKlatka")
+        public String removeKlatka(int id, Model model) {
+            int schr = klatkaDAO.get(id).getIdSchroniska();
+            klatkaDAO.delete(id);
+            return showSchronisko(schr, model);
         }
     }
 }

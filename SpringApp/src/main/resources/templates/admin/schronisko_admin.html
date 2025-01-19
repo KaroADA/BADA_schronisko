@@ -1,0 +1,251 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Main Page - Admin</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">BDBT Spring Boot Project - Part II</a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="col-md-12 mt-5">
+        <h1 th:text="${schronisko.nazwa}"></h1>
+        <p th:text="'Adres: ' + ${schronisko.adres}"></p>
+        <p th:text="'Telefon: ' + ${schronisko.telefon}"></p>
+        <p th:text="'Data otwarcia: ' + ${#dates.format(schronisko.dataOtwarcia, 'yyyy-MM-dd')}"></p>
+        <form method="post" th:action="@{/main_admin}">
+            <button class="btn btn-primary" type="submit" value="Back to main page">Powrót</button>
+        </form>
+    </div>
+<div class="col-md-12 mt-3"> <h2>Pracownicy</h2>
+    <table class="table table-striped"> <thead>
+    <tr>
+        <th>ID</th>
+        <th>Imię</th>
+        <th>Nazwisko</th>
+        <th>Stanowisko</th>
+        <th>Wynagrodzenie</th>
+        <th>Telefon</th>
+        <th>Email</th>
+        <th>ID Schroniska</th>
+        <th>Akcje</th>
+    </tr>
+    </thead>
+        <tbody>
+        <tr th:each="pracownik : ${pracownicy}">
+            <td th:text="${pracownik.idPracownika}"></td>
+            <td th:text="${pracownik.imie}"></td>
+            <td th:text="${pracownik.nazwisko}"></td>
+            <td th:text="${pracownik.stanowisko}"></td>
+            <td th:text="${pracownik.wynagrodzenie}"></td>
+            <td th:text="${pracownik.telefon}"></td>
+            <td th:text="${pracownik.email}"></td>
+            <td th:text="${pracownik.idSchroniska}"></td>
+            <td>
+                <form th:action="@{/admin/removePracownik}" method="post">
+                    <input type="hidden" name="id" th:value="${pracownik.idPracownika}" />
+                    <button type="submit" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Czy na pewno chcesz usunąć tego pracownika?')">Usuń</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-md-12 mt-3">
+    <h5>
+        <a href="#" class="toggle-form" data-target="#pracownikForm">Dodaj Pracownika (rozwiń/zwiń)</a>
+    </h5>
+    <div id="pracownikForm" class="collapsible-form" style="display: none;">
+        <form th:action="@{/admin/addPracownik}" method="post">
+            <div class="form-group">
+                <label for="imie">Imię:</label>
+                <input type="text" class="form-control" id="imie" name="imie" required>
+            </div>
+            <div class="form-group">
+                <label for="nazwisko">Nazwisko:</label>
+                <input type="text" class="form-control" id="nazwisko" name="nazwisko" required>
+            </div>
+            <div class="form-group">
+                <label for="stanowisko">Stanowisko:</label>
+                <input type="text" class="form-control" id="stanowisko" name="stanowisko" required>
+            </div>
+            <div class="form-group">
+                <label for="wynagrodzenie">Wynagrodzenie:</label>
+                <input type="number" step="0.01" class="form-control" id="wynagrodzenie" name="wynagrodzenie" required>
+            </div>
+            <div class="form-group">
+                <label for="telefon">Telefon:</label>
+                <input type="text" class="form-control" id="telefon" name="telefon">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <input type="hidden" name="idSchroniska" th:value="${schronisko.idSchroniska}" />
+            <button type="submit" class="btn btn-primary">Dodaj</button>
+        </form>
+    </div>
+</div>
+
+<div class="col-md-12 mt-3">
+    <h2>Klatki</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Pojemność</th>
+            <th>Typ</th>
+            <th>ID Schroniska</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="klatka : ${klatki}">
+            <td th:text="${klatka.idKlatki}"></td>
+            <td th:text="${klatka.pojemnosc}"></td>
+            <td th:text="${klatka.typ}"></td>
+            <td th:text="${klatka.idSchroniska}"></td>
+            <td>
+                <form th:action="@{/admin/removeKlatka}" method="post">
+                    <input type="hidden" name="id" th:value="${klatka.idKlatki}" />
+                    <button type="submit" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Czy na pewno chcesz usunąć tą klatkę?')">Usuń</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-md-12 mt-3">
+    <h5>
+        <a href="#" class="toggle-form" data-target="#klatkaForm">Dodaj Klatkę (rozwiń/zwiń)</a>
+    </h5>
+    <div id="klatkaForm" class="collapsible-form" style="display: none;">
+        <form th:action="@{/admin/addKlatka}" method="post">
+            <input type="hidden" name="idSchroniska" th:value="${schronisko.idSchroniska}" />
+            <div class="form-group">
+                <label for="typ">Typ:</label>
+                <input type="text" class="form-control" id="typ" name="typ">
+            </div>
+            <div class="form-group">
+                <label for="pojemnosc">Pojemnosc:</label>
+                <input type="number" class="form-control" id="pojemnosc" name="pojemnosc">
+            </div>
+            <button type="submit" class="btn btn-primary">Dodaj Klatkę</button>
+        </form>
+    </div>
+</div>
+
+<div class="col-md-12 mt-3">
+    <h2>Zwierzęta</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Imię</th>
+            <th>Gatunek</th>
+            <th>Wiek</th>
+            <th>Stan Zdrowia</th>
+            <th>Data Przyjęcia</th>
+            <th>ID Klatki</th>
+            <th>ID Adopcji</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="zwierze : ${zwierzeta}">
+            <td th:text="${zwierze.idZwierzecia}"></td>
+            <td th:text="${zwierze.imie}"></td>
+            <td th:text="${zwierze.gatunek}"></td>
+            <td th:text="${zwierze.wiek}"></td>
+            <td th:text="${zwierze.stanZdrowia}"></td>
+            <td th:text="${zwierze.dataPrzyjecia}"></td>
+            <td th:text="${zwierze.idKlatki}"></td>
+            <td th:text="${zwierze.idAdopcji}"></td>
+            <td>
+                <form th:action="@{/admin/removeZwierze}" method="post">
+                    <input type="hidden" name="id" th:value="${zwierze.idZwierzecia}" />
+                    <button type="submit" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Czy na pewno chcesz usunąć to zwierzę?')">Usuń</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-md-12 mt-3">
+    <h5>
+        <a href="#" class="toggle-form" data-target="#zwierzeForm">Dodaj Zwierzę (rozwiń/zwiń)</a>
+    </h5>
+    <div id="zwierzeForm" class="collapsible-form" style="display: none;">
+        <form th:action="@{/admin/addZwierze}" method="post">
+            <div class="form-group">
+                <label for="imie">Imię:</label>
+                <input type="text" class="form-control" id="imie" name="imie" required>
+            </div>
+            <div class="form-group">
+                <label for="gatunek">Gatunek:</label>
+                <input type="text" class="form-control" id="gatunek" name="gatunek" required>
+            </div>
+            <div class="form-group">
+                <label for="wiek">Wiek:</label>
+                <input type="number" class="form-control" id="wiek" name="wiek">
+            </div>
+            <div class="form-group">
+                <label for="stanZdrowia">Stan Zdrowia:</label>
+                <input type="text" class="form-control" id="stanZdrowia" name="stanZdrowia" required>
+            </div>
+            <div class="form-group">
+                <label for="dataPrzyjecia">Data Przyjęcia:</label>
+                <input type="date" class="form-control" id="dataPrzyjecia" name="dataPrzyjecia" @DateTimeFormat(pattern="yyyy-MM-dd") required>
+            </div>
+            <div class="form-group">
+                <label for="idKlatki">ID Klatki:</label>
+                <input type="number" class="form-control" id="idKlatki" name="idKlatki" required>
+            </div>
+            <div class="form-group">
+                <label for="urlZdjecia">URL Zdjęcia:</label>
+                <input type="text" class="form-control" id="urlZdjecia" name="urlZdjecia">
+            </div>
+            <div class="form-group">
+                <label for="plec">Płeć:</label>
+                <select class="form-control" id="plec" name="plec">
+                    <option value="Samiec">Samiec</option>
+                    <option value="Samica">Samica</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Dodaj</button>
+        </form>
+    </div>
+</div>
+    </div>
+</div>
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".toggle-form").click(function(e) {
+            e.preventDefault();
+            var target = $(this).data("target"); // Pobieramy wartość atrybutu data-target
+            $(target).toggle(); // Rozwijamy/zwijamy odpowiedni formularz
+
+            if ($(target).is(":visible")) {
+                $(this).text($(this).text().replace("(rozwiń)", "(zwiń)"));
+            } else {
+                $(this).text($(this).text().replace("(zwiń)", "(rozwiń)"));
+            }
+
+        });
+    });
+</script>
+</body>
+</html>

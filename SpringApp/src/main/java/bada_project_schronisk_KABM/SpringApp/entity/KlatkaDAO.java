@@ -22,6 +22,11 @@ public class KlatkaDAO {
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Klatka.class));
     }
 
+    public List<Klatka> listBySchroniskoId(int idSchroniska) {
+        String sql = "SELECT * FROM Klatki WHERE id_schroniska = ?";
+        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Klatka.class), idSchroniska);
+    }
+
     public void save(Klatka klatka) {
         String sql = "INSERT INTO Klatki (pojemnosc, typ, id_schroniska) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, klatka.getPojemnosc(), klatka.getTyp(), klatka.getIdSchroniska());

@@ -28,9 +28,14 @@ public class ZwierzeDAO {
         return jdbcTemplate.query(sql, new ZwierzeRowMapper());
     }
 
+    public List<Zwierze> listBySchroniskoId(int idSchroniska) {
+        String sql = "SELECT z.* FROM Zwierzeta z JOIN Klatki k ON z.id_klatki = k.id_klatki WHERE k.id_schroniska = ?";
+        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Zwierze.class), idSchroniska);
+    }
+
     public void save(Zwierze zwierze) {
-        String sql = "INSERT INTO Zwierzeta (imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji, url_zdjecia, plec) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, zwierze.getImie(), zwierze.getGatunek(), zwierze.getWiek(), zwierze.getStanZdrowia(), zwierze.getDataPrzyjecia(), zwierze.getIdKlatki(), zwierze.getIdAdopcji(), zwierze.getUrlZdjecia(), zwierze.getPlec());
+        String sql = "INSERT INTO Zwierzeta (imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji, url_zdjecia, plec) VALUES (?, ?, ?, ?, ?, ?, NULL, ?, ?)";
+        jdbcTemplate.update(sql, zwierze.getImie(), zwierze.getGatunek(), zwierze.getWiek(), zwierze.getStanZdrowia(), zwierze.getDataPrzyjecia(), zwierze.getIdKlatki(), zwierze.getUrlZdjecia(), zwierze.getPlec());
     }
 
     public Zwierze get(int id) {
