@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Main Page - Admin</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">BADA - Schronisko dla zwierząt</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <form method="post" th:action="@{/index}">
+                        <button class="btn btn-primary" type="submit" onclick="successfullyLogout()" value="Sign Out">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+
+    <div class="col-md-12 mt-5">
+        <h1 th:text="'Witaj, ' + ${pracownik.imie}"></h1>
+        <p th:text="'Stanowisko: ' + ${pracownik.stanowisko}"></p>
+        <p th:text="'Wynagrodzenie: ' + ${pracownik.wynagrodzenie}"></p>
+    </div>
+
+    <div class="col-md-12 mt-5">
+        <h1>Twoje Schronisko</h1>
+        <h3 th:text="${schronisko.nazwa}"></h3>
+        <p th:text="'Adres: ' + ${schronisko.adres}"></p>
+        <p th:text="'Telefon: ' + ${schronisko.telefon}"></p>
+        <p th:text="'Data otwarcia: ' + ${#dates.format(schronisko.dataOtwarcia, 'yyyy-MM-dd')}"></p>
+    </div>
+</div>
+<div class="col-md-12 mt-3">
+    <h2>Klatki</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Pojemność</th>
+            <th>Typ</th>
+            <th>ID Schroniska</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="klatka : ${klatki}">
+            <td th:text="${klatka.idKlatki}"></td>
+            <td th:text="${klatka.pojemnosc}"></td>
+            <td th:text="${klatka.typ}"></td>
+            <td th:text="${klatka.idSchroniska}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-md-12 mt-3">
+    <h2>Zwierzęta</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Imię</th>
+            <th>Gatunek</th>
+            <th>Wiek</th>
+            <th>Stan Zdrowia</th>
+            <th>Data Przyjęcia</th>
+            <th>ID Klatki</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="zwierze : ${zwierzeta}">
+            <td th:text="${zwierze.idZwierzecia}"></td>
+            <td th:text="${zwierze.imie}"></td>
+            <td th:text="${zwierze.gatunek}"></td>
+            <td th:text="${zwierze.wiek}"></td>
+            <td th:text="${zwierze.stanZdrowia}"></td>
+            <td th:text="${zwierze.dataPrzyjecia}"></td>
+            <td th:text="${zwierze.idKlatki}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-md-12 mt-3"> <h2>Pracownicy</h2>
+    <table class="table table-striped"> <thead>
+    <tr>
+        <th>ID</th>
+        <th>Imię</th>
+        <th>Nazwisko</th>
+        <th>Stanowisko</th>
+        <th>Wynagrodzenie</th>
+        <th>Telefon</th>
+        <th>Email</th>
+        <th>ID Uzytkownika</th>
+        <th>ID Schroniska</th>
+    </tr>
+    </thead>
+        <tbody>
+        <tr th:each="pracownik : ${pracownicy}">
+            <td th:text="${pracownik.idPracownika}"></td>
+            <td th:text="${pracownik.imie}"></td>
+            <td th:text="${pracownik.nazwisko}"></td>
+            <td th:text="${pracownik.stanowisko}"></td>
+            <td th:text="${pracownik.wynagrodzenie}"></td>
+            <td th:text="${pracownik.telefon}"></td>
+            <td th:text="${pracownik.email}"></td>
+            <td th:text="${pracownik.idUzytkownika}"></td>
+            <td th:text="${pracownik.idSchroniska}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

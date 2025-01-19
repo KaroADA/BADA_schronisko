@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/main").authenticated()
                 .requestMatchers("/main_admin", "/admin/**").hasRole("ADMIN")
                 .requestMatchers("/main_user").hasRole("USER")
+                .requestMatchers("/main_pracownik").hasRole("PRACOWNIK")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

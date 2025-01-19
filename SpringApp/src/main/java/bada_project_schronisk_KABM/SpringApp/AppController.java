@@ -33,6 +33,7 @@ public class AppController implements WebMvcConfigurer {
         registry.addViewController("/nowe_konto").setViewName("nowe_konto");
         registry.addViewController("/main_admin").setViewName("admin/main_admin");
         registry.addViewController("/main_user").setViewName("user/main_user");
+        registry.addViewController("/main_pracownik").setViewName("user/main_pracownik");
         registry.addViewController("/adopcje_user").setViewName("user/adopcje_user");
     }
 
@@ -44,6 +45,8 @@ public class AppController implements WebMvcConfigurer {
                 return "redirect:/main_admin";
             } else if (request.isUserInRole("USER")) {
                 return "redirect:/main_user";
+            }else if (request.isUserInRole("PRACOWNIK")) {
+                return "redirect:/main_pracownik";
             } else {
                 return "redirect:/";
             }
@@ -144,6 +147,32 @@ public class AppController implements WebMvcConfigurer {
             System.out.println(zwierzeta);
             model.addAttribute("zwierzeta", zwierzeta);
             return "index";
+        }
+
+        @RequestMapping("/main_pracownik")
+        public String showPracownikPage(Model model) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated()) {
+                // Użytkownik nie jest zalogowany, obsłuż ten przypadek (np. przekierowanie na stronę logowania)
+                return "redirect:/login"; //lub inny odpowiedni adres
+            }
+            UserDetails details = (UserDetails) authentication.getPrincipal();
+            String username = details.getUsername();
+            Uzytkownik uzytkownik = uzytkownikDAO.findByLogin(username);
+
+            Pracownik pracownik = pracownikDAO.getFromUser(uzytkownik.getIdUzytkownika());
+            Schronisko schronisko = schroniskoDAO.get(pracownik.getIdSchroniska());
+            List<Klatka> klatki = klatkaDAO.listBySchroniskoId(schronisko.getIdSchroniska());
+            List<Zwierze> zwierzeta = zwierzeDAO.listBySchroniskoId(schronisko.getIdSchroniska());
+            List<Pracownik> pracownicy = pracownikDAO.listBySchroniskoId(schronisko.getIdSchroniska());
+
+            model.addAttribute("pracownik", pracownik);
+            model.addAttribute("schronisko", schronisko);
+            model.addAttribute("pracownicy", pracownicy);
+            model.addAttribute("klatki", klatki);
+            model.addAttribute("zwierzeta", zwierzeta);
+
+            return "user/main_pracownik";
         }
 
         @RequestMapping("/nowe_konto")
