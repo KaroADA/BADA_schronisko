@@ -5,12 +5,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -21,6 +24,7 @@ public class AppController implements WebMvcConfigurer {
         registry.addViewController("/").setViewName("index");
         registry.addViewController("/main").setViewName("main");
         registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/nowe_konto").setViewName("nowe_konto");
         registry.addViewController("/main_admin").setViewName("admin/main_admin");
         registry.addViewController("/main_user").setViewName("user/main_user");
     }
@@ -47,6 +51,8 @@ public class AppController implements WebMvcConfigurer {
         private ZwierzeDAO zwierzeDAO;
         @Autowired
         private KlientDAO klientDAO;
+        @Autowired private UzytkownikDAO uzytkownikDAO;
+        @Autowired private PasswordEncoder passwordEncoder;
 
         @RequestMapping("/main_user")
         public String showUserPage(Model model) {
@@ -61,6 +67,36 @@ public class AppController implements WebMvcConfigurer {
             return "index";
         }
 
+        @RequestMapping("/nowe_konto")
+        public String rejestracja(Model model) {
+            model.addAttribute("uzytkownik", new Uzytkownik());
+            return "nowe_konto";
+        }
+        @RequestMapping("/stworz_nowe_konto")
+        public String noweKonto(UzytkownikRejestracja uzytkownik, BindingResult result, RedirectAttributes redirectAttributes) {
+            if (result.hasErrors()) {
+                return "nowe_konto";
+            }
+
+            if (!uzytkownik.getHaslo().equals(uzytkownik.getPowtorzHaslo())) {
+                redirectAttributes.addFlashAttribute("haslaNiezgodne", "Hasła muszą być identyczne."); // Dodajemy komunikat flash
+                return "redirect:/nowe_konto";
+            }
+
+            if (uzytkownikDAO.findByLogin(uzytkownik.getLogin()) != null) {
+                redirectAttributes.addFlashAttribute("loginZajety", "Podany login jest już zajęty."); // Dodajemy komunikat flash
+                return "redirect:/nowe_konto";
+            }
+
+            Uzytkownik nowy = new Uzytkownik();
+            nowy.setLogin(uzytkownik.getLogin());
+            nowy.setHaslo(passwordEncoder.encode(uzytkownik.getHaslo()));
+            nowy.setCzy_admin(false);
+            uzytkownikDAO.save(nowy);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Rejestracja przebiegła pomyślnie. Możesz się zalogować.");
+            return "redirect:/login";
+        }
         @RequestMapping("/main_admin")
         public String showAdminPage(Model model) {
             List<Schronisko> schroniska = schroniskoDAO.list();

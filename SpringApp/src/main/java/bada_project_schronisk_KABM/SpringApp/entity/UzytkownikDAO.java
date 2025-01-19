@@ -1,10 +1,11 @@
 package bada_project_schronisk_KABM.SpringApp.entity;
 
-import bada_project_schronisk_KABM.SpringApp.entity.Uzytkownik;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class UzytkownikDAO {
@@ -19,5 +20,15 @@ public class UzytkownikDAO {
         } catch (org.springframework.dao.EmptyResultDataAccessException ex) {
             return null;
         }
+    }
+
+    public void save(Uzytkownik uzytkownik) {
+        String sql = "INSERT INTO Uzytkownicy (login, haslo, czy_admin) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, uzytkownik.getLogin(), uzytkownik.getHaslo(), uzytkownik.getCzy_admin());
+    }
+
+    public List<Uzytkownik> findAll() {
+        String sql = "SELECT login, haslo, czy_admin FROM Uzytkownicy";
+        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Uzytkownik.class));
     }
 }
