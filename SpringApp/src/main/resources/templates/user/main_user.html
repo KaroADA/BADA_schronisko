@@ -83,6 +83,7 @@
                             <h6 class="card-title mb-1" th:text="'Gatunek: ' + ${zwierze.gatunek}"></h6>
                             <h6 class="card-title mb-1" th:text="'Wiek: ' + ${zwierze.wiek}"></h6>
                             <h6 class="card-title mb-1" th:text="'Stan zdrowia: ' + ${zwierze.stanZdrowia}"></h6>
+                            <h6 class="card-title mb-1" th:text="'Data adopcji: ' + ${#dates.format(zwierze.dataAdopcji, 'yyyy-MM-dd')}"></h6>
                         </div>
                     </div>
                 </div>

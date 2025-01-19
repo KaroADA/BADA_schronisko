@@ -12,10 +12,14 @@ public class Zwierze {
     private String stanZdrowia;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataPrzyjecia;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dataAdopcji;
     private String plec;
     private String urlZdjecia;
     private Integer idKlatki; // Zamiast encji Pomieszczenie - id
     private Integer idAdopcji; // Zamiast encji Adopcja - id
+
+    private Integer dniOdPrzyjecia;
 
     // Konstruktory (pamiętaj o konstruktorze bezargumentowym)
     public Zwierze() {}
@@ -65,6 +69,21 @@ public class Zwierze {
 
     public void setUrlZdjecia(String urlZdjecia) {
         this.urlZdjecia = urlZdjecia;
+    }
+    public Date getDataAdopcji() {
+        return dataAdopcji;
+    }
+
+    public void setDataAdopcji(Date dataAdopcji) {
+        this.dataAdopcji = dataAdopcji;
+    }
+
+    public Integer getDniOdPrzyjecia() {
+        return dniOdPrzyjecia;
+    }
+
+    public void setDniOdPrzyjecia(Integer dniOdPrzyjecia) {
+        this.dniOdPrzyjecia = dniOdPrzyjecia;
     }
 
     @Override

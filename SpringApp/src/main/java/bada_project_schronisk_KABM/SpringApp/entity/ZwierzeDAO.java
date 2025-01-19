@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -23,13 +24,13 @@ public class ZwierzeDAO {
     }
 
     public List<Zwierze> list() {
-        String sql = "SELECT id_zwierzecia, imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji, url_zdjecia, plec FROM Zwierzeta";
+        String sql = "SELECT id_zwierzecia, imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji, url_zdjecia, plec, TRUNC(SYSDATE - data_przyjecia) AS dni_od_przyjecia FROM Zwierzeta";
         System.out.println("list " + sql);
         return jdbcTemplate.query(sql, new ZwierzeRowMapper());
     }
 
     public List<Zwierze> listUnadopted() {
-        String sql = "SELECT id_zwierzecia, imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji, plec, url_zdjecia \n" +
+        String sql = "SELECT id_zwierzecia, imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji, plec, url_zdjecia, TRUNC(SYSDATE - data_przyjecia) AS dni_od_przyjecia \n" +
                 "FROM Zwierzeta\n" +
                 "WHERE id_adopcji IS null";
         System.out.println("list " + sql);
@@ -37,10 +38,10 @@ public class ZwierzeDAO {
     }
 
     public List<Zwierze> listByUser(Integer userId) {
-        String sql = "SELECT *\n" +
-                "FROM Zwierzeta z\n" +
-                "JOIN Adopcje a ON z.id_adopcji = a.id_adopcji\n" +
-                "JOIN Klienci k ON a.id_klienta = k.id_klienta\n" +
+        String sql = "SELECT * " +
+                "FROM Zwierzeta z " +
+                "JOIN Adopcje a ON z.id_adopcji = a.id_adopcji " +
+                "JOIN Klienci k ON a.id_klienta = k.id_klienta " +
                 "WHERE k.id_uzytkownika = " + userId.toString();
         return jdbcTemplate.query(sql, new ZwierzeRowMapper());
     }
@@ -96,11 +97,19 @@ public class ZwierzeDAO {
             zwierze.setIdKlatki(rs.getInt("id_klatki"));
             Integer idAdopcji = rs.getInt("id_adopcji");
             if (rs.wasNull()) {
-                zwierze.setIdAdopcji(null); // Ustawiamy null, jeśli id_adopcji było NULL
+                zwierze.setIdAdopcji(null);
+                zwierze.setDataAdopcji(null);
             } else {
                 zwierze.setIdAdopcji(idAdopcji);
+                zwierze.setDataAdopcji(rs.getDate("data_adopcji"));
             }
-
+            Integer dniOdPrzyjecia = null;
+            try {
+                dniOdPrzyjecia = rs.getInt("dni_od_przyjecia");
+            } catch (SQLException e) {
+                dniOdPrzyjecia=null;
+            }
+            zwierze.setDniOdPrzyjecia(dniOdPrzyjecia);
             return zwierze;
         }
     }
