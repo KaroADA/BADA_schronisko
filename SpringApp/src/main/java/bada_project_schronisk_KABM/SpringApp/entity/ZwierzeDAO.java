@@ -28,12 +28,20 @@ public class ZwierzeDAO {
         return jdbcTemplate.query(sql, new ZwierzeRowMapper());
     }
 
+    public List<Zwierze> listUnadopted() {
+        String sql = "SELECT id_zwierzecia, imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji, plec, url_zdjecia \n" +
+                "FROM Zwierzeta\n" +
+                "WHERE id_adopcji IS null";
+        System.out.println("list " + sql);
+        return jdbcTemplate.query(sql, new ZwierzeRowMapper());
+    }
+
     public List<Zwierze> listByUser(Integer userId) {
         String sql = "SELECT *\n" +
                 "FROM Zwierzeta z\n" +
                 "JOIN Adopcje a ON z.id_adopcji = a.id_adopcji\n" +
                 "JOIN Klienci k ON a.id_klienta = k.id_klienta\n" +
-                "WHERE k.id_uzytkownika = 2";
+                "WHERE k.id_uzytkownika = " + userId.toString();
         return jdbcTemplate.query(sql, new ZwierzeRowMapper());
     }
 

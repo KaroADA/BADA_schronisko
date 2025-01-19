@@ -84,7 +84,7 @@ public class AppController implements WebMvcConfigurer {
 
         @RequestMapping(value={"index", "/"})
         public String showIndexPage(Model model) {
-            List<Zwierze> zwierzeta = zwierzeDAO.list();
+            List<Zwierze> zwierzeta = zwierzeDAO.listUnadopted();
             System.out.println(zwierzeta);
             model.addAttribute("zwierzeta", zwierzeta);
             return "index";
