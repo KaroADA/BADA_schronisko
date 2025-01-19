@@ -77,7 +77,13 @@ public class ZwierzeDAO {
             zwierze.setUrlZdjecia(rs.getString("url_zdjecia"));
             zwierze.setPlec(rs.getString("plec"));
             zwierze.setIdKlatki(rs.getInt("id_klatki"));
-            zwierze.setIdAdopcji(rs.getInt("id_adopcji"));
+            Integer idAdopcji = rs.getInt("id_adopcji");
+            if (rs.wasNull()) {
+                zwierze.setIdAdopcji(null); // Ustawiamy null, jeśli id_adopcji było NULL
+            } else {
+                zwierze.setIdAdopcji(idAdopcji);
+            }
+
             return zwierze;
         }
     }

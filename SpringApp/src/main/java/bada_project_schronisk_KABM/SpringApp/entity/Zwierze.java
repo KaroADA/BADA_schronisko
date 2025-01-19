@@ -14,13 +14,13 @@ public class Zwierze {
     private Date dataPrzyjecia;
     private String plec;
     private String urlZdjecia;
-    private int idKlatki; // Zamiast encji Pomieszczenie - id
-    private int idAdopcji; // Zamiast encji Adopcja - id
+    private Integer idKlatki; // Zamiast encji Pomieszczenie - id
+    private Integer idAdopcji; // Zamiast encji Adopcja - id
 
     // Konstruktory (pamiętaj o konstruktorze bezargumentowym)
     public Zwierze() {}
 
-    public Zwierze(int idZwierzecia, String imie, String gatunek, Integer wiek, String stanZdrowia, Date dataPrzyjecia, int idKlatki, int idAdopcji, String urlZdjecia, String plec) {
+    public Zwierze(int idZwierzecia, String imie, String gatunek, Integer wiek, String stanZdrowia, Date dataPrzyjecia, Integer idKlatki, Integer idAdopcji, String urlZdjecia, String plec) {
         this.idZwierzecia = idZwierzecia;
         this.imie = imie;
         this.gatunek = gatunek;
@@ -35,7 +35,7 @@ public class Zwierze {
 
     // Gettery i Settery
     public int getIdZwierzecia() { return idZwierzecia; }
-    public void setIdZwierzecia(int idZwierzecia) { this.idZwierzecia = idZwierzecia; }
+    public void setIdZwierzecia(Integer idZwierzecia) { this.idZwierzecia = idZwierzecia; }
     public String getImie() { return imie; }
     public void setImie(String imie) { this.imie = imie; }
     public String getGatunek() { return gatunek; }
@@ -46,10 +46,10 @@ public class Zwierze {
     public void setStanZdrowia(String stanZdrowia) { this.stanZdrowia = stanZdrowia; }
     public Date getDataPrzyjecia() { return dataPrzyjecia; }
     public void setDataPrzyjecia(Date dataPrzyjecia) { this.dataPrzyjecia = dataPrzyjecia; }
-    public int getIdKlatki() { return idKlatki; }
-    public void setIdKlatki(int idKlatki) { this.idKlatki = idKlatki; }
-    public int getIdAdopcji() { return idAdopcji; }
-    public void setIdAdopcji(int idAdopcji) { this.idAdopcji = idAdopcji; }
+    public Integer getIdKlatki() { return idKlatki; }
+    public void setIdKlatki(Integer idKlatki) { this.idKlatki = idKlatki; }
+    public Integer getIdAdopcji() { return idAdopcji; }
+    public void setIdAdopcji(Integer idAdopcji) { this.idAdopcji = idAdopcji; }
 
     public String getPlec() {
         return plec;

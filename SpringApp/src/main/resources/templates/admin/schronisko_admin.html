@@ -170,7 +170,10 @@
             <td th:text="${zwierze.stanZdrowia}"></td>
             <td th:text="${zwierze.dataPrzyjecia}"></td>
             <td th:text="${zwierze.idKlatki}"></td>
-            <td th:text="${zwierze.idAdopcji}"></td>
+            <td th:switch="${zwierze.idAdopcji}">
+                <span th:case="null">-</span>
+                <span th:case="*" th:text ="${zwierze.idAdopcji}"></span>
+            </td>
             <td>
                 <form th:action="@{/admin/removeZwierze}" method="post">
                     <input type="hidden" name="id" th:value="${zwierze.idZwierzecia}" />
