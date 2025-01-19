@@ -14,7 +14,7 @@ public class UzytkownikDAO {
     private JdbcTemplate jdbcTemplate;
 
     public Uzytkownik findByLogin(String login) {
-        String sql = "SELECT login, haslo, czy_admin FROM Uzytkownicy WHERE login = ?";
+        String sql = "SELECT id_uzytkownika, login, haslo, czy_admin FROM Uzytkownicy WHERE login = ?";
         try {
             return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Uzytkownik.class), login);
         } catch (org.springframework.dao.EmptyResultDataAccessException ex) {

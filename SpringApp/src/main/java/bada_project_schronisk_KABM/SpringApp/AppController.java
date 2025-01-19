@@ -5,6 +5,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,7 +59,22 @@ public class AppController implements WebMvcConfigurer {
 
         @RequestMapping("/main_user")
         public String showUserPage(Model model) {
-            Integer userId = 2;
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated()) {
+                // Użytkownik nie jest zalogowany, obsłuż ten przypadek (np. przekierowanie na stronę logowania)
+                return "redirect:/login"; //lub inny odpowiedni adres
+            }
+            UserDetails details = (UserDetails) authentication.getPrincipal();
+            String username = details.getUsername();
+
+            Uzytkownik uzytkownik = uzytkownikDAO.findByLogin(username);
+            if (uzytkownik == null) {
+                return "error"; //Lub inna strona błędu
+            }
+
+            Integer userId = uzytkownik.getIdUzytkownika();
+            System.out.println("USER ID" + userId);
+
             List<Zwierze> zwierzeta = zwierzeDAO.listByUser(userId);
             System.out.println(zwierzeta);
             model.addAttribute("zwierzeta", zwierzeta);

@@ -1,6 +1,8 @@
 package bada_project_schronisk_KABM.SpringApp.entity;
 
 public class Uzytkownik {
+
+    private Integer idUzytkownika;
     private String login;
     private String haslo;
     private Boolean czy_admin;
@@ -16,6 +18,13 @@ public class Uzytkownik {
     }
 
     // Gettery i settery
+    public Integer getIdUzytkownika() {
+        return idUzytkownika;
+    }
+
+    public void setIdUzytkownika(Integer idUzytkownika) {
+        this.idUzytkownika = idUzytkownika;
+    }
     public String getLogin() {
         return login;
     }
@@ -44,7 +53,8 @@ public class Uzytkownik {
     @Override
     public String toString() {
         return "Uzytkownik{" +
-                "login='" + login + '\'' +
+                "id=" + idUzytkownika +
+                ", login='" + login + '\'' +
                 ", haslo='" + haslo + '\'' +
                 ", czy_admin=" + czy_admin +
                 '}';
