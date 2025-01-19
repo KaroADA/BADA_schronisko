@@ -3,6 +3,7 @@ package bada_project_schronisk_KABM.SpringApp;
 import bada_project_schronisk_KABM.SpringApp.entity.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +34,7 @@ public class AppController implements WebMvcConfigurer {
             } else if (request.isUserInRole("USER")) {
                 return "redirect:/main_user";
             } else {
-                return "redirect:/index";
+                return "redirect:/";
             }
         }
         @Autowired
@@ -52,7 +53,7 @@ public class AppController implements WebMvcConfigurer {
             return "user/main_user";
         }
 
-        @RequestMapping("index")
+        @RequestMapping(value={"index", "/"})
         public String showIndexPage(Model model) {
             List<Zwierze> zwierzeta = zwierzeDAO.list();
             System.out.println(zwierzeta);
