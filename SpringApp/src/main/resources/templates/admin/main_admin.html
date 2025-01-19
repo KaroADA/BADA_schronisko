@@ -47,10 +47,10 @@
                     <td th:text="${schronisko.telefon}"></td>
                     <td th:text="${#dates.format(schronisko.dataOtwarcia, 'yyyy-MM-dd')}"></td>
                     <td>
-                        <a th:href="@{/admin/schronisko_admin/{id}(id=${schronisko.idSchroniska})}" class="btn btn-primary btn-sm">Zarządzaj</a>
+                        <a th:href="@{/admin/schronisko_admin/{id}(id=${schronisko.idSchroniska})}" class="btn btn-primary btn-sm w-100 mb-1">Zarządzaj</a>
                         <form th:action="@{/admin/removeSchronisko}" method="post">
                             <input type="hidden" name="id" th:value="${schronisko.idSchroniska}" />
-                            <button type="submit" class="btn btn-danger btn-sm"
+                            <button type="submit" class="btn btn-danger btn-sm w-100"
                                     onclick="return confirm('Czy na pewno chcesz usunąć to schronisko?')">Usuń</button>
                         </form>
                     </td>
