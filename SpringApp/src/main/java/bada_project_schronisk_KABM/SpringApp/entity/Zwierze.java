@@ -17,14 +17,14 @@ public class Zwierze {
     private String plec;
     private String urlZdjecia;
     private Integer idKlatki; // Zamiast encji Pomieszczenie - id
-    private Integer idAdopcji; // Zamiast encji Adopcja - id
+//    private Integer idAdopcji; // Zamiast encji Adopcja - id
 
     private Integer dniOdPrzyjecia;
 
     // Konstruktory (pamiętaj o konstruktorze bezargumentowym)
     public Zwierze() {}
 
-    public Zwierze(int idZwierzecia, String imie, String gatunek, Integer wiek, String stanZdrowia, Date dataPrzyjecia, Integer idKlatki, Integer idAdopcji, String urlZdjecia, String plec) {
+    public Zwierze(int idZwierzecia, String imie, String gatunek, Integer wiek, String stanZdrowia, Date dataPrzyjecia, Integer idKlatki, String urlZdjecia, String plec) {
         this.idZwierzecia = idZwierzecia;
         this.imie = imie;
         this.gatunek = gatunek;
@@ -32,7 +32,6 @@ public class Zwierze {
         this.stanZdrowia = stanZdrowia;
         this.dataPrzyjecia = dataPrzyjecia;
         this.idKlatki = idKlatki;
-        this.idAdopcji = idAdopcji;
         this.urlZdjecia = urlZdjecia;
         this.plec = plec;
     }
@@ -52,8 +51,8 @@ public class Zwierze {
     public void setDataPrzyjecia(Date dataPrzyjecia) { this.dataPrzyjecia = dataPrzyjecia; }
     public Integer getIdKlatki() { return idKlatki; }
     public void setIdKlatki(Integer idKlatki) { this.idKlatki = idKlatki; }
-    public Integer getIdAdopcji() { return idAdopcji; }
-    public void setIdAdopcji(Integer idAdopcji) { this.idAdopcji = idAdopcji; }
+//    public Integer getIdAdopcji() { return idAdopcji; }
+//    public void setIdAdopcji(Integer idAdopcji) { this.idAdopcji = idAdopcji; }
 
     public String getPlec() {
         return plec;
@@ -98,7 +97,7 @@ public class Zwierze {
                 ", plec='" + plec + '\'' +
                 ", url_zdjecia='" + urlZdjecia + '\'' +
                 ", idKlatki=" + idKlatki +
-                ", idAdopcji=" + idAdopcji +
+//                ", idAdopcji=" + idAdopcji +
                 '}';
     }
 }

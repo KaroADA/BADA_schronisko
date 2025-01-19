@@ -157,7 +157,7 @@
             <th>Stan Zdrowia</th>
             <th>Data Przyjęcia</th>
             <th>ID Klatki</th>
-            <th>ID Adopcji</th>
+<!--            <th>ID Adopcji</th>-->
             <th>Akcje</th>
         </tr>
         </thead>
@@ -170,10 +170,10 @@
             <td th:text="${zwierze.stanZdrowia}"></td>
             <td th:text="${zwierze.dataPrzyjecia}"></td>
             <td th:text="${zwierze.idKlatki}"></td>
-            <td th:switch="${zwierze.idAdopcji}">
-                <span th:case="null">-</span>
-                <span th:case="*" th:text ="${zwierze.idAdopcji}"></span>
-            </td>
+<!--            <td th:switch="${zwierze.idAdopcji}">-->
+<!--                <span th:case="null">-</span>-->
+<!--                <span th:case="*" th:text ="${zwierze.idAdopcji}"></span>-->
+<!--            </td>-->
             <td>
                 <form th:action="@{/admin/removeZwierze}" method="post">
                     <input type="hidden" name="id" th:value="${zwierze.idZwierzecia}" />

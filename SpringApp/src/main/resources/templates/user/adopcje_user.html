@@ -42,14 +42,14 @@
                     <a class="nav-link" th:href="@{/index}">Home</a>
                 </li>
 
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Moje zwierzęta
-                        <span class="sr-only">(current)</span>
-                    </a>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/main_user}">Moje zwierzęta</a>
                 </li>
 
-                <li class="nav-item ">
-                    <a class="nav-link" th:href="@{/adopcje_user}">Adopcje</a>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Adopcje
+                        <span class="sr-only">(current)</span>
+                    </a>
                 </li>
 
                 <li class="nav-item">
@@ -70,7 +70,7 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10 mt-5">
-            <h1 class="ml-3">Cześć <a style="color:lightskyblue; text-transform:capitalize"><b>[[${#authentication.name}]]</b></a>, oto lista twoich zwierząt:</h1>
+            <h1 class="ml-3">Oto lista zwierząt do adopcji:</h1>
             <div class="row row-cols-3">
                 <div th:each="zwierze : ${zwierzeta}" class="col m-3 w-auto" style="flex-grow: 0 !important;">
                     <div class="card" id="card_filemon" style="width: 18rem; height: 100%;">
@@ -87,7 +87,11 @@
                             <h6 class="card-title mb-1" th:text="'Gatunek: ' + ${zwierze.gatunek}"></h6>
                             <h6 class="card-title mb-1" th:text="'Wiek: ' + ${zwierze.wiek}"></h6>
                             <h6 class="card-title mb-1" th:text="'Stan zdrowia: ' + ${zwierze.stanZdrowia}"></h6>
-                            <h6 class="card-title mb-1" th:text="'Data adopcji: ' + ${#dates.format(zwierze.dataAdopcji, 'yyyy-MM-dd')}"></h6>
+
+                            <form th:action="@{/adoptuj/{id}(id=${zwierze.idZwierzecia})}" method="post">
+                                <button type="submit" class="btn btn-primary">Adoptuj</button>
+                            </form>
+
                         </div>
                     </div>
                 </div>

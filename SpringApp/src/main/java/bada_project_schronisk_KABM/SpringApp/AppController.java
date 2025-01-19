@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -30,6 +31,7 @@ public class AppController implements WebMvcConfigurer {
         registry.addViewController("/nowe_konto").setViewName("nowe_konto");
         registry.addViewController("/main_admin").setViewName("admin/main_admin");
         registry.addViewController("/main_user").setViewName("user/main_user");
+        registry.addViewController("/adopcje_user").setViewName("user/adopcje_user");
     }
 
     @Controller
@@ -81,7 +83,59 @@ public class AppController implements WebMvcConfigurer {
 
             return "user/main_user";
         }
+        @RequestMapping("/adopcje_user")
+        public String showAdopcjeUserPage(Model model) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated()) {
+                // Użytkownik nie jest zalogowany, obsłuż ten przypadek (np. przekierowanie na stronę logowania)
+                return "redirect:/login"; //lub inny odpowiedni adres
+            }
+            UserDetails details = (UserDetails) authentication.getPrincipal();
+            String username = details.getUsername();
 
+            Uzytkownik uzytkownik = uzytkownikDAO.findByLogin(username);
+            if (uzytkownik == null) {
+                return "error"; //Lub inna strona błędu
+            }
+
+            Integer userId = uzytkownik.getIdUzytkownika();
+            System.out.println("USER ID" + userId);
+
+            List<Zwierze> zwierzeta = zwierzeDAO.listUnadopted();
+            System.out.println(zwierzeta);
+            model.addAttribute("zwierzeta", zwierzeta);
+
+            return "user/adopcje_user";
+        }
+        @PostMapping("/adoptuj/{id}")
+        public String adoptujZwierze(@PathVariable("id") int idZwierzecia) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
+
+            UserDetails details = (UserDetails) authentication.getPrincipal();
+            String username = details.getUsername();
+            Uzytkownik uzytkownik = uzytkownikDAO.findByLogin(username);
+            System.out.println("username " + username);
+            System.out.println("uzytkownik " + uzytkownik);
+
+            if (uzytkownik == null) {
+                return "error";
+            }
+
+
+            try {
+                zwierzeDAO.adopt(idZwierzecia, uzytkownik.getIdUzytkownika()); // Zakładam, że masz taką metodę w DAO
+                return "redirect:/main_user"; // Przekierowanie po udanej adopcji
+            } catch (Exception e) {
+                // Obsługa błędów (np. zwierzę już adoptowane)
+                // Dodaj do modelu atrybut z informacją o błędzie
+                // i zwróć widok "user/adopcje_user" lub inny widok błędu.
+                System.out.println(e);
+                return "error";
+            }
+        }
         @RequestMapping(value={"index", "/"})
         public String showIndexPage(Model model) {
             List<Zwierze> zwierzeta = zwierzeDAO.listUnadopted();
