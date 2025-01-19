@@ -70,27 +70,34 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-10 mt-5">
-            <h1 class="ml-3">Cześć <a style="color:lightskyblue; text-transform:capitalize"><b>[[${#authentication.name}]]</b></a>, oto lista twoich zwierząt:</h1>
-            <div class="row row-cols-3">
-                <div th:each="zwierze : ${zwierzeta}" class="col m-3 w-auto" style="flex-grow: 0 !important;">
-                    <div class="card" id="card_filemon" style="width: 18rem; height: 100%;">
-                        <div class="card-img-top img_div">
-                            <img class="obrazek" th:src="${zwierze.urlZdjecia}">
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title mb-1">
-                                <span th:text="${zwierze.imie}"></span>
-                                <th:block th:if="${zwierze.plec == 'Samiec'}">♂</th:block>
-                                <th:block th:if="${zwierze.plec == 'Samica'}">♀</th:block>
-                                <th:block th:if="${zwierze.plec != 'Samiec' and zwierze.plec != 'Samica'}">?</th:block>
-                            </h4>
-                            <h6 class="card-title mb-1" th:text="'Gatunek: ' + ${zwierze.gatunek}"></h6>
-                            <h6 class="card-title mb-1" th:text="'Wiek: ' + ${zwierze.wiek}"></h6>
-                            <h6 class="card-title mb-1" th:text="'Stan zdrowia: ' + ${zwierze.stanZdrowia}"></h6>
-                            <h6 class="card-title mb-1" th:text="'Data adopcji: ' + ${#dates.format(zwierze.dataAdopcji, 'yyyy-MM-dd')}"></h6>
+            <div th:if="${not #lists.isEmpty(zwierzeta)}">
+                <h1 class="ml-3">Cześć <a style="color:lightskyblue; text-transform:capitalize"><b>[[${#authentication.name}]]</b></a>, oto lista twoich zwierząt:</h1>
+
+                <div class="row row-cols-3">
+                    <div th:each="zwierze : ${zwierzeta}" class="col m-3 w-auto" style="flex-grow: 0 !important;">
+                        <div class="card" style="width: 18rem; height: 100%;">
+                            <div class="card-img-top img_div">
+                                <img class="obrazek" th:src="${zwierze.urlZdjecia}">
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title mb-1">
+                                    <span th:text="${zwierze.imie}"></span>
+                                    <th:block th:if="${zwierze.plec == 'Samiec'}">♂</th:block>
+                                    <th:block th:if="${zwierze.plec == 'Samica'}">♀</th:block>
+                                    <th:block th:if="${zwierze.plec != 'Samiec' and zwierze.plec != 'Samica'}">?</th:block>
+                                </h4>
+                                <h6 class="card-title mb-1" th:text="'Gatunek: ' + ${zwierze.gatunek}"></h6>
+                                <h6 class="card-title mb-1" th:text="'Wiek: ' + ${zwierze.wiek}"></h6>
+                                <h6 class="card-title mb-1" th:text="'Stan zdrowia: ' + ${zwierze.stanZdrowia}"></h6>
+                                <h6 class="card-title mb-1" th:text="'Data adopcji: ' + ${#dates.format(zwierze.dataAdopcji, 'yyyy-MM-dd')}"></h6>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div th:if="${#lists.isEmpty(zwierzeta)}">
+                <h1 class="ml-3">Cześć <a style="color:lightskyblue; text-transform:capitalize"><b>[[${#authentication.name}]]</b></a>, nie masz jeszcze żadnych zwierząt:</h1>
             </div>
         </div>
 
