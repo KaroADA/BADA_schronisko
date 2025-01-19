@@ -28,6 +28,15 @@ public class ZwierzeDAO {
         return jdbcTemplate.query(sql, new ZwierzeRowMapper());
     }
 
+    public List<Zwierze> listByUser(Integer userId) {
+        String sql = "SELECT *\n" +
+                "FROM Zwierzeta z\n" +
+                "JOIN Adopcje a ON z.id_adopcji = a.id_adopcji\n" +
+                "JOIN Klienci k ON a.id_klienta = k.id_klienta\n" +
+                "WHERE k.id_uzytkownika = 2";
+        return jdbcTemplate.query(sql, new ZwierzeRowMapper());
+    }
+
     public List<Zwierze> listBySchroniskoId(int idSchroniska) {
         String sql = "SELECT z.* FROM Zwierzeta z JOIN Klatki k ON z.id_klatki = k.id_klatki WHERE k.id_schroniska = ?";
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Zwierze.class), idSchroniska);

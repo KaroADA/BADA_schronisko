@@ -56,6 +56,11 @@ public class AppController implements WebMvcConfigurer {
 
         @RequestMapping("/main_user")
         public String showUserPage(Model model) {
+            Integer userId = 2;
+            List<Zwierze> zwierzeta = zwierzeDAO.listByUser(userId);
+            System.out.println(zwierzeta);
+            model.addAttribute("zwierzeta", zwierzeta);
+
             return "user/main_user";
         }
 
