@@ -87,11 +87,17 @@
 			<scope>provided</scope>
 		</dependency>
 
+<!--		<dependency>-->
+<!--			<groupId>com.oracle</groupId>-->
+<!--			<artifactId>ojdbc17</artifactId>-->
+<!--			<scope>system</scope>-->
+<!--			<systemPath>${basedir}/ojdbc17.jar</systemPath>-->
+<!--			<version>23.6.0.24.10</version>-->
+<!--		</dependency>-->
+
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc17</artifactId>
-			<scope>system</scope>
-			<systemPath>${basedir}/ojdbc17.jar</systemPath>
 			<version>23.6.0.24.10</version>
 		</dependency>
 
