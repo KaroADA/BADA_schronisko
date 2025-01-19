@@ -79,8 +79,8 @@
                                 <th:block th:if="${zwierze.plec == 'Samica'}">♀</th:block>
                                 <th:block th:if="${zwierze.plec != 'Samiec' and zwierze.plec != 'Samica'}">?</th:block>
                             </h4>
+                            <h6 class="card-title mb-1" th:text="'Gatunek: ' + ${zwierze.gatunek}"></h6>
                             <h6 class="card-title mb-1" th:text="'Wiek: ' + ${zwierze.wiek}"></h6>
-                            <h6 class="card-title mb-3" th:text="'Stan zdrowia: ' + ${zwierze.stanZdrowia}"></h6>
                         </div>
                     </div>
                 </div>
