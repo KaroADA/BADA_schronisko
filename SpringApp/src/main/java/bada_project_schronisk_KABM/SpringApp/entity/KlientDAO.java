@@ -39,6 +39,15 @@ public class KlientDAO {
         }
     }
 
+    public Klient getFromUser(int id) {
+        String sql = "SELECT * FROM Klienci WHERE id_uzytkownika = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new KlientRowMapper(), id);
+        } catch (org.springframework.dao.EmptyResultDataAccessException ex) {
+            return null; // Zwracamy null, jeśli nie znaleziono klienta o danym id
+        }
+    }
+
     public void update(Klient klient) {
         String sql = "UPDATE Klienci SET imie = ?, nazwisko = ?, adres = ?, email = ?, telefon = ? WHERE id_klienta = ?";
         jdbcTemplate.update(sql, klient.getImie(), klient.getNazwisko(), klient.getAdres(), klient.getEmail(), klient.getTelefon(), klient.getIdKlienta());

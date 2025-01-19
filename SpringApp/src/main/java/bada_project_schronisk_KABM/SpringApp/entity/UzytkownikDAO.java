@@ -32,6 +32,20 @@ public class UzytkownikDAO {
         jdbcTemplate.update(sql, id);
     }
 
+    public void update(UzytkownikZarzadzanie uzytkownik) {
+        String sql = "UPDATE Uzytkownicy SET login = ?, haslo = ?, czy_admin = ? WHERE id_uzytkownika = ?";
+        jdbcTemplate.update(sql, uzytkownik.getLogin(), uzytkownik.getHaslo(), uzytkownik.getCzy_admin(), uzytkownik.getId());
+    }
+
+    public Uzytkownik get(int id) {
+        String sql = "SELECT * FROM Uzytkownicy WHERE id_uzytkownika = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Uzytkownik.class), id);
+        } catch (org.springframework.dao.EmptyResultDataAccessException ex) {
+            return null;
+        }
+    }
+
     public List<Uzytkownik> list() {
         String sql = "SELECT id_uzytkownika, login, haslo, czy_admin FROM Uzytkownicy";
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Uzytkownik.class));

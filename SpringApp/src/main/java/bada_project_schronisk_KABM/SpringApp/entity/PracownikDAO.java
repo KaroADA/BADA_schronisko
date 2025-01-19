@@ -18,7 +18,7 @@ public class PracownikDAO {
     }
 
     public List<Pracownik> list() {
-        String sql = "SELECT id_pracownika, imie, nazwisko, stanowisko, wynagrodzenie, telefon, email, id_schroniska FROM Pracownicy";
+        String sql = "SELECT id_pracownika, id_uzytkownika, imie, nazwisko, stanowisko, wynagrodzenie, telefon, email, id_schroniska FROM Pracownicy";
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Pracownik.class));
     }
 
@@ -28,12 +28,12 @@ public class PracownikDAO {
     }
 
     public void save(Pracownik pracownik) {
-        String sql = "INSERT INTO Pracownicy (imie, nazwisko, stanowisko, wynagrodzenie, telefon, email, id_schroniska) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, pracownik.getImie(), pracownik.getNazwisko(), pracownik.getStanowisko(), pracownik.getWynagrodzenie(), pracownik.getTelefon(), pracownik.getEmail(), pracownik.getIdSchroniska());
+        String sql = "INSERT INTO Pracownicy (imie, nazwisko, stanowisko, wynagrodzenie, telefon, email, id_schroniska, id_uzytkownika) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, pracownik.getImie(), pracownik.getNazwisko(), pracownik.getStanowisko(), pracownik.getWynagrodzenie(), pracownik.getTelefon(), pracownik.getEmail(), pracownik.getIdSchroniska(), pracownik.getIdUzytkownika());
     }
 
     public Pracownik get(int id) {
-        String sql = "SELECT id_pracownika, imie, nazwisko, stanowisko, wynagrodzenie, telefon, email, id_schroniska FROM Pracownicy WHERE id_pracownika = ?";
+        String sql = "SELECT * FROM Pracownicy WHERE id_pracownika = ?";
         try {
             return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Pracownik.class), id);
         } catch (org.springframework.dao.EmptyResultDataAccessException ex) {
@@ -41,9 +41,18 @@ public class PracownikDAO {
         }
     }
 
+    public Pracownik getFromUser(int id) {
+        String sql = "SELECT * FROM Pracownicy WHERE id_uzytkownika = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, BeanPropertyRowMapper.newInstance(Pracownik.class), id);
+        } catch (org.springframework.dao.EmptyResultDataAccessException ex) {
+            return null; // Zwracamy null, jeśli nie znaleziono klienta o danym id
+        }
+    }
+
     public void update(Pracownik pracownik) {
-        String sql = "UPDATE Pracownicy SET imie = ?, nazwisko = ?, stanowisko = ?, wynagrodzenie = ?, telefon = ?, email = ?, id_schroniska = ? WHERE id_pracownika = ?";
-        jdbcTemplate.update(sql, pracownik.getImie(), pracownik.getNazwisko(), pracownik.getStanowisko(), pracownik.getWynagrodzenie(), pracownik.getTelefon(), pracownik.getEmail(), pracownik.getIdSchroniska(), pracownik.getIdPracownika());
+        String sql = "UPDATE Pracownicy SET imie = ?, nazwisko = ?, stanowisko = ?, wynagrodzenie = ?, telefon = ?, email = ?, id_schroniska = ?, id_uzytkownika = ? WHERE id_pracownika = ?";
+        jdbcTemplate.update(sql, pracownik.getImie(), pracownik.getNazwisko(), pracownik.getStanowisko(), pracownik.getWynagrodzenie(), pracownik.getTelefon(), pracownik.getEmail(), pracownik.getIdSchroniska(), pracownik.getIdPracownika(), pracownik.getIdUzytkownika());
     }
 
     public void delete(int id) {

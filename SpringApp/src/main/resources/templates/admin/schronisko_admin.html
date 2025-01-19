@@ -33,6 +33,7 @@
         <th>Wynagrodzenie</th>
         <th>Telefon</th>
         <th>Email</th>
+        <th>ID Uzytkownika</th>
         <th>ID Schroniska</th>
         <th>Akcje</th>
     </tr>
@@ -46,6 +47,7 @@
             <td th:text="${pracownik.wynagrodzenie}"></td>
             <td th:text="${pracownik.telefon}"></td>
             <td th:text="${pracownik.email}"></td>
+            <td th:text="${pracownik.idUzytkownika}"></td>
             <td th:text="${pracownik.idSchroniska}"></td>
             <td>
                 <form th:action="@{/admin/removePracownik}" method="post">

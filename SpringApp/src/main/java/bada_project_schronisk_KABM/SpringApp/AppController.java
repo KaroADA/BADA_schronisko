@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @Configuration
 public class AppController implements WebMvcConfigurer {
@@ -190,6 +192,103 @@ public class AppController implements WebMvcConfigurer {
             uzytkownikDAO.delete(id);
             return showAdminPage(model);
         }
+        @RequestMapping("/admin/uzytkownik_admin/{id}")
+        public String zarzadzanieUzytkownik(@PathVariable("id") int id, Model model) {
+            Uzytkownik uzytkownik = uzytkownikDAO.get(id);
+            if (uzytkownik == null) {
+                return "error";
+            }
+
+            UzytkownikZarzadzanie uzytkownikZarzadzanie = new UzytkownikZarzadzanie();
+            uzytkownikZarzadzanie.setId(id);
+            uzytkownikZarzadzanie.setLogin(uzytkownik.getLogin());
+            uzytkownikZarzadzanie.setHaslo(uzytkownik.getHaslo());
+            uzytkownikZarzadzanie.setCzy_admin(uzytkownik.getCzy_admin());
+
+            Optional<Klient> klient = Optional.ofNullable(klientDAO.getFromUser(id));
+            klient.ifPresent(k -> {
+                uzytkownikZarzadzanie.setCzy_pracownik(false);
+                uzytkownikZarzadzanie.setAdres(k.getAdres());
+                uzytkownikZarzadzanie.setImie(k.getImie());
+                uzytkownikZarzadzanie.setNazwisko(k.getNazwisko());
+                uzytkownikZarzadzanie.setEmail(k.getEmail());
+                uzytkownikZarzadzanie.setTelefon(k.getTelefon());
+            });
+
+            Optional<Pracownik> pracownik = Optional.ofNullable(pracownikDAO.getFromUser(id));
+            pracownik.ifPresent(p -> {
+                uzytkownikZarzadzanie.setCzy_pracownik(true);
+                uzytkownikZarzadzanie.setStanowisko(p.getStanowisko());
+                uzytkownikZarzadzanie.setWynagrodzenie(p.getWynagrodzenie());
+                uzytkownikZarzadzanie.setIdSchroniska(p.getIdSchroniska());
+                uzytkownikZarzadzanie.setImie(p.getImie());
+                uzytkownikZarzadzanie.setNazwisko(p.getNazwisko());
+                uzytkownikZarzadzanie.setEmail(p.getEmail());
+                uzytkownikZarzadzanie.setTelefon(p.getTelefon());
+            });
+
+            if (uzytkownikZarzadzanie.getImie() == null) uzytkownikZarzadzanie.setImie("");
+            if (uzytkownikZarzadzanie.getNazwisko() == null) uzytkownikZarzadzanie.setNazwisko("");
+            if (uzytkownikZarzadzanie.getAdres() == null) uzytkownikZarzadzanie.setAdres("");
+            if (uzytkownikZarzadzanie.getTelefon() == null) uzytkownikZarzadzanie.setTelefon("");
+            if (uzytkownikZarzadzanie.getEmail() == null) uzytkownikZarzadzanie.setEmail("");
+//            if(uzytkownikZarzadzanie.getCzy_pracownik() == null) uzytkownikZarzadzanie.setCzy_pracownik(false);
+
+            System.out.println("ENTER " + uzytkownikZarzadzanie);
+            model.addAttribute("uzytkownikZarzadzanie", uzytkownikZarzadzanie); // Przekazujemy obiekt do widoku
+            return "admin/uzytkownik_admin";
+        }
+        @RequestMapping("/admin/updateUser")
+        public String updateUser(UzytkownikZarzadzanie uzytkownik, RedirectAttributes redirectAttributes) {
+            System.out.println("UPDATE");
+            System.out.println(uzytkownik);
+            int id = uzytkownik.getId();
+
+            uzytkownikDAO.update(uzytkownik);
+            if (uzytkownik.getCzy_pracownik()) {
+                if (uzytkownik.getStanowisko() == null) {
+                    uzytkownik.setStanowisko("test");
+                }
+                if (uzytkownik.getWynagrodzenie() == null) {
+                    uzytkownik.setWynagrodzenie((double) 0);
+                }
+                if (uzytkownik.getIdSchroniska() == null) {
+                    uzytkownik.setIdSchroniska(1);
+                }
+                System.out.println("AFTER");
+                System.out.println(uzytkownik);
+                Pracownik p = new Pracownik(0, id, uzytkownik.getImie(), uzytkownik.getNazwisko(), uzytkownik.getStanowisko(), uzytkownik.getWynagrodzenie(), uzytkownik.getTelefon(), uzytkownik.getEmail(), uzytkownik.getIdSchroniska());
+                Pracownik getp = pracownikDAO.getFromUser(id);
+                if (getp == null) {
+                    klientDAO.delete(klientDAO.getFromUser(id).getIdKlienta());
+                    pracownikDAO.save(p);
+                } else {
+                    p.setIdPracownika(getp.getIdPracownika());
+                    pracownikDAO.update(p);
+                }
+            } else {
+                Klient k = new Klient(0, id, uzytkownik.getImie(), uzytkownik.getNazwisko(), uzytkownik.getAdres(), uzytkownik.getEmail(), uzytkownik.getTelefon());
+                Klient getk = klientDAO.getFromUser(id);
+                if (getk == null) {
+                    pracownikDAO.delete(pracownikDAO.getFromUser(id).getIdPracownika());
+                    klientDAO.save(k);
+                } else {
+                    k.setIdKlienta(getk.getIdKlienta());
+                    klientDAO.update(k);
+                }
+            }
+//            if (klient != null) {
+//                klientDAO.update(klient);
+//            }
+//            if (pracownik != null) {
+//                pracownikDAO.update(pracownik);
+//            }
+
+            redirectAttributes.addFlashAttribute("success", "Dane użytkownika zostały zaktualizowane.");
+            return "redirect:/admin/uzytkownik_admin/" + uzytkownik.getId();
+        }
+
+
 
         @RequestMapping("/main_admin")
         public String showAdminPage(Model model) {

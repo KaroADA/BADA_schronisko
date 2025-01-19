@@ -2,6 +2,7 @@ package bada_project_schronisk_KABM.SpringApp.entity;
 
 public class Pracownik {
     private int idPracownika;
+    private int idUzytkownika;
     private String imie;
     private String nazwisko;
     private String stanowisko;
@@ -12,8 +13,9 @@ public class Pracownik {
 
     public Pracownik() {}
 
-    public Pracownik(int idPracownika, String imie, String nazwisko, String stanowisko, double wynagrodzenie, String telefon, String email, int idSchroniska) {
+    public Pracownik(int idPracownika, int idUzytkownika, String imie, String nazwisko, String stanowisko, double wynagrodzenie, String telefon, String email, int idSchroniska) {
         this.idPracownika = idPracownika;
+        this.idUzytkownika = idUzytkownika;
         this.imie = imie;
         this.nazwisko = nazwisko;
         this.stanowisko = stanowisko;
@@ -26,6 +28,12 @@ public class Pracownik {
     // Gettery i Settery
     public int getIdPracownika() { return idPracownika; }
     public void setIdPracownika(int idPracownika) { this.idPracownika = idPracownika; }
+    public int getIdUzytkownika() {
+        return idUzytkownika;
+    }
+    public void setIdUzytkownika(int idUzytkownika) {
+        this.idUzytkownika = idUzytkownika;
+    }
     public String getImie() { return imie; }
     public void setImie(String imie) { this.imie = imie; }
     public String getNazwisko() { return nazwisko; }

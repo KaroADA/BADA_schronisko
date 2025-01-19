@@ -99,6 +99,7 @@
                     <th>Adres</th>
                     <th>Email</th>
                     <th>Telefon</th>
+                    <th>Akcje</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -109,6 +110,9 @@
                     <td th:text="${klient.adres}"></td>
                     <td th:text="${klient.email}"></td>
                     <td th:text="${klient.telefon}"></td>
+                    <td>
+                    <a th:href="@{/admin/uzytkownik_admin/{id}(id=${klient.idUzytkownika})}" class="btn btn-primary btn-sm w-100 mb-1">Zarządzaj</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -133,6 +137,7 @@
                     <td th:text="${user.haslo}"></td>
                     <td th:text="${user.czy_admin}"></td>
                     <td>
+                        <a th:href="@{/admin/uzytkownik_admin/{id}(id=${user.idUzytkownika})}" class="btn btn-primary btn-sm w-100 mb-1">Zarządzaj</a>
                         <form th:action="@{/admin/removeUzytkownik}" method="post">
                             <input type="hidden" name="id" th:value="${user.idUzytkownika}" />
                             <button type="submit" class="btn btn-danger btn-sm w-100"

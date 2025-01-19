@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="|Zarządzanie Użytkownikiem ${uzytkownikZarzadzanie.login}|">Zarządzanie Użytkownikiem</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Zarządzanie Użytkownikiem <span th:text="${uzytkownikZarzadzanie.login}"></span></h1>
+
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+    <form th:action="@{/admin/updateUser}" method="post" th:object="${uzytkownikZarzadzanie}">
+        <input type="hidden" th:field="*{id}" />
+
+        <h2>Dane Użytkownika</h2>
+        <table class="table">
+            <tr>
+                <th>Login</th>
+                <td><input type="text" class="form-control" th:field="*{login}" required/></td>
+            </tr>
+            <tr>
+                <th>Hasło</th>
+                <td><input type="text" class="form-control" th:field="*{haslo}" required/></td>
+            </tr>
+            <tr>
+                <th>Czy Admin</th>
+                <td><input type="checkbox" th:field="*{czy_admin}" /></td>
+            </tr>
+            <tr>
+                <th>Czy Pracownik</th>
+                <td><input type="checkbox" th:field="*{czy_pracownik}" /></td>
+            </tr>
+        </table>
+
+        <div th:if="${uzytkownikZarzadzanie.czy_pracownik == false}">
+            <h2>Dane Klienta</h2>
+            <table class="table">
+                <tr>
+                    <th>Imię</th>
+                    <td><input type="text" class="form-control" th:field="*{imie}" required/></td>
+                </tr>
+                <tr>
+                    <th>Nazwisko</th>
+                    <td><input type="text" class="form-control" th:field="*{nazwisko}" required/></td>
+                </tr>
+                <tr>
+                    <th>Adres</th>
+                    <td><input type="text" class="form-control" th:field="*{adres}" required/></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td><input type="email" class="form-control" th:field="*{email}" required/></td>
+                </tr>
+                <tr>
+                    <th>Numer telefonu</th>
+                    <td><input type="tel" class="form-control" th:field="*{telefon}" required/></td>
+                </tr>
+            </table>
+        </div>
+
+        <div th:if="${uzytkownikZarzadzanie.czy_pracownik}">
+            <h2>Dane Pracownika</h2>
+            <table class="table">
+                <tr>
+                    <th>Imię</th>
+                    <td><input type="text" class="form-control" th:field="*{imie}" required/></td>
+                </tr>
+                <tr>
+                    <th>Nazwisko</th>
+                    <td><input type="text" class="form-control" th:field="*{nazwisko}" required/></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td><input type="email" class="form-control" th:field="*{email}" required/></td>
+                </tr>
+                <tr>
+                    <th>Numer telefonu</th>
+                    <td><input type="tel" class="form-control" th:field="*{telefon}" required/></td>
+                </tr>
+                <tr>
+                    <th>Stanowisko</th>
+                    <td><input type="text" class="form-control" th:field="*{stanowisko}" required/></td>
+                </tr>
+                <tr>
+                    <th>Wynagrodzenie</th>
+                    <td><input type="number" step="0.01" class="form-control" th:field="*{wynagrodzenie}" required/></td>
+                </tr>
+                <tr>
+                    <th>ID Schroniska</th>
+                    <td><input type="number" class="form-control" th:field="*{idSchroniska}" required/></td>
+                </tr>
+            </table>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Zapisz</button>
+    </form>
+    <form th:action="@{/admin/removeUzytkownik}" method="post">
+        <input type="hidden" name="id" th:value="${uzytkownikZarzadzanie.id}" />
+        <button type="submit" class="btn btn-danger mt-3 w-100"
+                onclick="return confirm('Czy na pewno chcesz usunąć tego uzytkownika?')">Usuń</button>
+    </form>
+
+    <a th:href="@{/main_admin}" class="btn btn-secondary mt-3 w-100">Powrót do listy użytkowników</a>
+
+</div>
+</body>
+</html>
