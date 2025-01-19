@@ -56,27 +56,31 @@
 <!-- <img th:src="@{/assets/img/img.png}" alt="Image" class="img-fluid"> -->
 
 
-<div class="container">
-    <div class="row">
+<div class="container-fluid">
+    <div class="row justify-content-center">
         <div class="col-md-10 mt-5">
 
-            <label style="font-size:30px">Welcome to the home page!</label>
-            <div style="font-size:20px">If you want to login, click <a th:href="@{/main}"><b>here</b></a> or in the
-                upper right corner.
-            </div>
+            <h1 class="ml-3 pl-3">Zwierzęta czekające na dom</h1>
+<!--            <label style="font-size:30px">Zwierzęta czekające na dom</label>-->
+<!--            <div style="font-size:20px">If you want to login, click <a th:href="@{/main}"><b>here</b></a> or in the-->
+<!--                upper right corner.-->
+<!--            </div>-->
 
             <div class="row row-cols-3">
-                <div th:each="zwierze : ${zwierzeta}" class="col">
-                    <div class="col m-3 w-auto">
-                        <div class="card" id="card_filemon" style="width: 18rem; height: 100%;">
-                            <div class="card-img-top img_div">
-                                <img class="obrazek" th:src="${zwierze.urlZdjecia}">
-                            </div>
-                            <div class="card-body">
-                                <h4 class="card-title mb-1" th:text="${zwierze.imie} + ' ' + ${zwierze.plec}">Filemon ♂</h4>
-                                <h6 class="card-title mb-1" th:text="'Wiek: ' + ${zwierze.wiek}"></h6>
-                                <h6 class="card-title mb-3" th:text="'Stan zdrowia: ' + ${zwierze.stanZdrowia}"></h6>
-                            </div>
+                <div th:each="zwierze : ${zwierzeta}" class="col m-3 w-auto" style="flex-grow: 0 !important;">
+                    <div class="card" id="card_filemon" style="width: 18rem; height: 100%;">
+                        <div class="card-img-top img_div">
+                            <img class="obrazek" th:src="${zwierze.urlZdjecia}">
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title mb-1">
+                                <span th:text="${zwierze.imie}"></span>
+                                <th:block th:if="${zwierze.plec == 'Samiec'}">♂</th:block>
+                                <th:block th:if="${zwierze.plec == 'Samica'}">♀</th:block>
+                                <th:block th:if="${zwierze.plec != 'Samiec' and zwierze.plec != 'Samica'}">?</th:block>
+                            </h4>
+                            <h6 class="card-title mb-1" th:text="'Wiek: ' + ${zwierze.wiek}"></h6>
+                            <h6 class="card-title mb-3" th:text="'Stan zdrowia: ' + ${zwierze.stanZdrowia}"></h6>
                         </div>
                     </div>
                 </div>
