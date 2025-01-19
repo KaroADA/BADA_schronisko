@@ -52,12 +52,12 @@ public class AppController implements WebMvcConfigurer {
             return "user/main_user";
         }
 
-        @RequestMapping("/index")
+        @RequestMapping("index")
         public String showIndexPage(Model model) {
             List<Zwierze> zwierzeta = zwierzeDAO.list();
             System.out.println(zwierzeta);
             model.addAttribute("zwierzeta", zwierzeta);
-            return "/index";
+            return "index";
         }
 
         @RequestMapping("/main_admin")
