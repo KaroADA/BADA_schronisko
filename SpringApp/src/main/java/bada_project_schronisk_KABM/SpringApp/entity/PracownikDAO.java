@@ -52,7 +52,8 @@ public class PracownikDAO {
 
     public void update(Pracownik pracownik) {
         String sql = "UPDATE Pracownicy SET imie = ?, nazwisko = ?, stanowisko = ?, wynagrodzenie = ?, telefon = ?, email = ?, id_schroniska = ?, id_uzytkownika = ? WHERE id_pracownika = ?";
-        jdbcTemplate.update(sql, pracownik.getImie(), pracownik.getNazwisko(), pracownik.getStanowisko(), pracownik.getWynagrodzenie(), pracownik.getTelefon(), pracownik.getEmail(), pracownik.getIdSchroniska(), pracownik.getIdPracownika(), pracownik.getIdUzytkownika());
+        jdbcTemplate.update(sql, pracownik.getImie(), pracownik.getNazwisko(), pracownik.getStanowisko(), pracownik.getWynagrodzenie(), pracownik.getTelefon(), pracownik.getEmail(), pracownik.getIdSchroniska(), pracownik.getIdUzytkownika(), pracownik.getIdPracownika());
+        System.out.println("UPDATE " + sql + pracownik.getIdPracownika());
     }
 
     public void delete(int id) {
