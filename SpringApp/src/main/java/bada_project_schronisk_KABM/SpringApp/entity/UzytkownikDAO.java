@@ -27,8 +27,13 @@ public class UzytkownikDAO {
         jdbcTemplate.update(sql, uzytkownik.getLogin(), uzytkownik.getHaslo(), uzytkownik.getCzy_admin());
     }
 
-    public List<Uzytkownik> findAll() {
-        String sql = "SELECT login, haslo, czy_admin FROM Uzytkownicy";
+    public void delete(int id) {
+        String sql = "DELETE FROM Uzytkownicy WHERE id_uzytkownika = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
+    public List<Uzytkownik> list() {
+        String sql = "SELECT id_uzytkownika, login, haslo, czy_admin FROM Uzytkownicy";
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Uzytkownik.class));
     }
 }

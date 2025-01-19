@@ -2,6 +2,7 @@ package bada_project_schronisk_KABM.SpringApp.entity;
 
 public class Klient {
     private int idKlienta;
+    private int idUzytkownika;
     private String imie;
     private String nazwisko;
     private String adres;
@@ -13,8 +14,9 @@ public class Klient {
     }
 
     // Konstruktor z argumentami - ułatwia tworzenie obiektów
-    public Klient(int idKlienta, String imie, String nazwisko, String adres, String email, String telefon) {
+    public Klient(int idKlienta, int idUzytkownika, String imie, String nazwisko, String adres, String email, String telefon) {
         this.idKlienta = idKlienta;
+        this.idUzytkownika = idUzytkownika;
         this.imie = imie;
         this.nazwisko = nazwisko;
         this.adres = adres;
@@ -26,7 +28,12 @@ public class Klient {
     public int getIdKlienta() {
         return idKlienta;
     }
-
+    public int getIdUzytkownika() {
+        return idUzytkownika;
+    }
+    public void setIdUzytkownika(int idUzytkownika) {
+        this.idUzytkownika = idUzytkownika;
+    }
     public String getImie() {
         return imie;
     }
@@ -76,6 +83,7 @@ public class Klient {
     public String toString() {
         return "Klient{" +
                 "idKlienta=" + idKlienta +
+                ", idUzytkownika=" + idUzytkownika +
                 ", imie='" + imie + '\'' +
                 ", nazwisko='" + nazwisko + '\'' +
                 ", adres='" + adres + '\'' +

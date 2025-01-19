@@ -21,13 +21,13 @@ public class KlientDAO {
     }
 
     public List<Klient> list() {
-        String sql = "SELECT id_klienta, imie, nazwisko, adres, email, telefon FROM Klienci";
+        String sql = "SELECT id_klienta, id_uzytkownika, imie, nazwisko, adres, email, telefon FROM Klienci";
         return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Klient.class));
     }
 
     public void save(Klient klient) {
-        String sql = "INSERT INTO Klienci (imie, nazwisko, adres, email, telefon) VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, klient.getImie(), klient.getNazwisko(), klient.getAdres(), klient.getEmail(), klient.getTelefon());
+        String sql = "INSERT INTO Klienci (imie, nazwisko, adres, email, telefon, id_uzytkownika) VALUES (?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, klient.getImie(), klient.getNazwisko(), klient.getAdres(), klient.getEmail(), klient.getTelefon(), klient.getIdUzytkownika());
     }
 
     public Klient get(int id) {

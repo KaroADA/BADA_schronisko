@@ -114,6 +114,36 @@
             </table>
         </div>
 
+        <div class="container">
+            <h2>Lista Użytkowników</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Login</th>
+                    <th>Hasło</th>
+                    <th>Czy Admin</th>
+                    <th>Akcje</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${uzytkownicy}">
+                    <td th:text="${user.idUzytkownika}"></td>
+                    <td th:text="${user.login}"></td>
+                    <td th:text="${user.haslo}"></td>
+                    <td th:text="${user.czy_admin}"></td>
+                    <td>
+                        <form th:action="@{/admin/removeUzytkownik}" method="post">
+                            <input type="hidden" name="id" th:value="${user.idUzytkownika}" />
+                            <button type="submit" class="btn btn-danger btn-sm w-100"
+                                    onclick="return confirm('Czy na pewno chcesz usunąć tego uzytkownika?')">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>
 <script src="/webjars/jquery/jquery.min.js"></script>

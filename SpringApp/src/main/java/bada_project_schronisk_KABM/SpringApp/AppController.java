@@ -117,23 +117,35 @@ public class AppController implements WebMvcConfigurer {
             nowy.setCzy_admin(false);
             uzytkownikDAO.save(nowy);
 
+            Klient klient = new Klient();
+            klient.setAdres(uzytkownik.getAdres());
+            klient.setEmail(uzytkownik.getEmail());
+            klient.setImie(uzytkownik.getImie());
+            klient.setNazwisko(uzytkownik.getNazwisko());
+            klient.setTelefon(uzytkownik.getTelefon());
+            klient.setIdUzytkownika(uzytkownikDAO.findByLogin(nowy.getLogin()).getIdUzytkownika());
+            System.out.println("KLIENT: " + klient);
+            klientDAO.save(klient);
+
             redirectAttributes.addFlashAttribute("successMessage", "Rejestracja przebiegła pomyślnie. Możesz się zalogować.");
             return "redirect:/login";
         }
+        @RequestMapping("/admin/removeUzytkownik")
+        public String removeUzytkownik(int id, Model model) {
+            System.out.println("DEL " + id);
+            uzytkownikDAO.delete(id);
+            return showAdminPage(model);
+        }
+
         @RequestMapping("/main_admin")
         public String showAdminPage(Model model) {
             List<Schronisko> schroniska = schroniskoDAO.list();
-            List<Pracownik> pracownicy = pracownikDAO.list();
-            List<Klatka> klatki = klatkaDAO.list();
-            List<Zwierze> zwierzeta = zwierzeDAO.list();
             List<Klient> klienci = klientDAO.list();
-            System.out.println(zwierzeta);
+            List<Uzytkownik> uzytkownicy = uzytkownikDAO.list();
 
             model.addAttribute("schroniska", schroniska);
-            model.addAttribute("pracownicy", pracownicy);
-            model.addAttribute("klatki", klatki);
-            model.addAttribute("zwierzeta", zwierzeta);
             model.addAttribute("klienci", klienci);
+            model.addAttribute("uzytkownicy", uzytkownicy);
             return "admin/main_admin";
         }
         @RequestMapping("/admin/schronisko_admin/{id}")
