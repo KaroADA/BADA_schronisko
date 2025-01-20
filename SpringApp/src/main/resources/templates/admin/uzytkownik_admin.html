@@ -25,7 +25,7 @@
             <tr>
                 <th>Hasło</th>
                 <td><span th:text="${uzytkownikZarzadzanie.haslo}"></span></td>
-                <td><a th:href="@{/admin/haslo_admin/{id}(id=${uzytkownikZarzadzanie.id})}" class="btn btn-secondary mt-3 w-100">Zmień</a></td>
+                <td><a th:href="@{/user_management/haslo/{id}(id=${uzytkownikZarzadzanie.id})}" class="btn btn-primary mt-3 w-100">Zmień</a></td>
             </tr>
             <tr>
                 <th>Czy Admin</th>

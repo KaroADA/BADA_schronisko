@@ -49,10 +49,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         String[] roles = roleList.toArray(new String[0]);
 
-
-        return User.withUsername(uzytkownik.getLogin())
+        UserDetails u = User.withUsername(uzytkownik.getLogin())
                 .password(uzytkownik.getHaslo())
                 .roles(roles) // Ustaw role użytkownika
                 .build();
+        return new CustomUserDetails(uzytkownik.getIdUzytkownika(), u.getUsername(), u.getPassword(), u.getAuthorities());
+
     }
 }

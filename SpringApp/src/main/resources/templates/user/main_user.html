@@ -52,13 +52,17 @@
                     <a class="nav-link" th:href="@{/adopcje_user}">Adopcje</a>
                 </li>
 
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link w-100" th:inline="text" style="color:lightskyblue;"> <b style="text-transform:capitalize">[[${#authentication.name}]]</b></a>-->
+<!--                </li>-->
+
                 <li class="nav-item">
-                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">You are logged in as <b style="text-transform:capitalize">[[${#authentication.name}]]</b></a>
+                    <a th:href="@{/user_management/haslo/{id}(id=${uzytkownik.idUzytkownika})}" class="btn btn-primary mr-1">Zmień hasło</a>
                 </li>
 
                 <li class="nav-item">
                     <form method="post" th:action="@{/index}">
-                        <button class="btn btn-primary" type="submit" onclick="successfullyLogout()" value="Sign Out">Logout</button>
+                        <button class="btn btn-primary" type="submit" onclick="successfullyLogout()" value="Sign Out">Wyloguj</button>
                     </form>
                 </li>
 
@@ -97,7 +101,7 @@
             </div>
 
             <div th:if="${#lists.isEmpty(zwierzeta)}">
-                <h1 class="ml-3">Cześć <a style="color:lightskyblue; text-transform:capitalize"><b>[[${#authentication.name}]]</b></a>, nie masz jeszcze żadnych zwierząt:</h1>
+                <h1 class="ml-3">Cześć <a style="color:lightskyblue; text-transform:capitalize"><b>[[${#authentication.name}]]</b></a>, nie masz jeszcze żadnych zwierząt.</h1>
             </div>
         </div>
 

@@ -14,7 +14,7 @@
                     Zmień hasło
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/admin/nowe_haslo}" method="post" th:object="${uzytkownik}">
+                    <form th:action="@{/user_management/nowe_haslo}" method="post" th:object="${uzytkownik}">
                         <input type="hidden" name="idUzytkownika" th:value="${uzytkownik.idUzytkownika}" />
                         <div class="form-group">
                             <label for="haslo">Hasło:</label>
@@ -25,8 +25,9 @@
                             <input type="password" id="powtorzHaslo" name="powtorzHaslo" class="form-control" required>
                         </div>
                         <div th:if="${haslaNiezgodne}" class="alert alert-danger" th:text="${haslaNiezgodne}"></div>
-                        <button type="submit" class="btn btn-primary">Potwierdź</button>
+                        <button type="submit" class="btn btn-primary mt-3 w-100">Potwierdź</button>
                     </form>
+                    <a th:href="@{/user_management/powrot/{id}(id=${uzytkownik.idUzytkownika})}" class="btn btn-secondary mt-3 w-100">Powrót</a>
 
                 </div>
             </div>

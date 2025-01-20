@@ -5,7 +5,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -80,10 +82,10 @@ public class AppController implements WebMvcConfigurer {
             }
 
             Integer userId = uzytkownik.getIdUzytkownika();
-            System.out.println("USER ID" + userId);
+            System.out.println("USER ID " + userId);
 
             List<Zwierze> zwierzeta = zwierzeDAO.listByUser(userId);
-            System.out.println(zwierzeta);
+            model.addAttribute("uzytkownik", uzytkownik);
             model.addAttribute("zwierzeta", zwierzeta);
 
             return "user/main_user";
@@ -317,25 +319,42 @@ public class AppController implements WebMvcConfigurer {
             return "redirect:/admin/uzytkownik_admin/" + uzytkownik.getId();
         }
 
-        @RequestMapping("/admin/haslo_admin/{id}")
-        public String showHasloAdmin(@PathVariable("id") int id, Model model) {
+        @RequestMapping("/user_management/haslo/{id}")
+        @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
+        public String showHaslo(@PathVariable("id") int id, Model model) {
             UzytkownikHaslo uzytkownikHaslo = new UzytkownikHaslo();
             uzytkownikHaslo.setIdUzytkownika(id);
             model.addAttribute("uzytkownik", uzytkownikHaslo);
-            return "admin/haslo_admin";
+            return "user_management/haslo";
         }
 
-        @RequestMapping("/admin/nowe_haslo")
+        @RequestMapping("/user_management/nowe_haslo")
         public String noweHaslo(UzytkownikHaslo uzytkownik, RedirectAttributes redirectAttributes) {
             System.out.println(uzytkownik);
             if (!uzytkownik.getHaslo().equals(uzytkownik.getPowtorzHaslo())) {
                 redirectAttributes.addFlashAttribute("haslaNiezgodne", "Hasła muszą być identyczne."); // Dodajemy komunikat flash
-                return "redirect:/haslo_admin/" + uzytkownik.getIdUzytkownika();
+                return "redirect:/user_management/haslo/" + uzytkownik.getIdUzytkownika();
             }
             Uzytkownik u = uzytkownikDAO.get(uzytkownik.getIdUzytkownika());
             u.setHaslo(passwordEncoder.encode(uzytkownik.getHaslo()));
             uzytkownikDAO.update(u);
-            return "redirect:/admin/uzytkownik_admin/" + uzytkownik.getIdUzytkownika();
+            return powrot(u.getIdUzytkownika());
+        }
+        @RequestMapping("/user_management/powrot/{id}")
+        public String powrot(@PathVariable("id") int id) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
+            for (GrantedAuthority authority : authentication.getAuthorities()) {
+                if (authority.getAuthority().equals("ROLE_ADMIN")) { // Roles typically have a "ROLE_" prefix
+                    return "redirect:/admin/uzytkownik_admin/" + id;
+                }
+                if (authority.getAuthority().equals("ROLE_PRACOWNIK")) { // Roles typically have a "ROLE_" prefix
+                    return "redirect:/main_pracownik";
+                }
+            }
+            return "redirect:/main_user";
         }
 
         @RequestMapping("/main_admin")
