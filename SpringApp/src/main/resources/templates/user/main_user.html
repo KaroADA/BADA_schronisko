@@ -57,10 +57,14 @@
 <!--                </li>-->
 
                 <li class="nav-item">
+                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">Zalogowano jako <b style="text-transform:capitalize">[[${#authentication.name}]]</b></a>
+                </li>
+
+                <li class="nav-item" style="margin-top: 0.15rem;">
                     <a th:href="@{/user_management/haslo/{id}(id=${uzytkownik.idUzytkownika})}" class="btn btn-primary mr-1">Zmień hasło</a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item" style="margin-top: 0.15rem;">
                     <form method="post" th:action="@{/index}">
                         <button class="btn btn-primary" type="submit" onclick="successfullyLogout()" value="Sign Out">Wyloguj</button>
                     </form>

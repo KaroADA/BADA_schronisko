@@ -53,8 +53,12 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">You are logged in as <b style="text-transform:capitalize">[[${#authentication.name}]]</b></a>
+                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">Zalogowano jako <b style="text-transform:capitalize">[[${#authentication.name}]]</b></a>
                 </li>
+
+<!--                <li class="nav-item" style="margin-top: 0.15rem;">-->
+<!--                    <a th:href="@{/user_management/haslo/{id}(id=${uzytkownik.idUzytkownika})}" class="btn btn-primary mr-1">Zmień hasło</a>-->
+<!--                </li>-->
 
                 <li class="nav-item">
                     <form method="post" th:action="@{/index}">
