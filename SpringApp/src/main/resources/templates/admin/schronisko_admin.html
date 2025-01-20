@@ -50,9 +50,10 @@
             <td th:text="${pracownik.idUzytkownika}"></td>
             <td th:text="${pracownik.idSchroniska}"></td>
             <td>
+                <a th:href="@{/admin/uzytkownik_admin/{id}(id=${pracownik.idUzytkownika})}" class="btn btn-primary btn-sm w-100 mb-1">Zarządzaj</a>
                 <form th:action="@{/admin/removePracownik}" method="post">
                     <input type="hidden" name="id" th:value="${pracownik.idPracownika}" />
-                    <button type="submit" class="btn btn-danger btn-sm"
+                    <button type="submit" class="btn btn-danger btn-sm w-100"
                             onclick="return confirm('Czy na pewno chcesz usunąć tego pracownika?')">Usuń</button>
                 </form>
             </td>
@@ -118,7 +119,7 @@
             <td>
                 <form th:action="@{/admin/removeKlatka}" method="post">
                     <input type="hidden" name="id" th:value="${klatka.idKlatki}" />
-                    <button type="submit" class="btn btn-danger btn-sm"
+                    <button type="submit" class="btn btn-danger btn-sm w-100"
                             onclick="return confirm('Czy na pewno chcesz usunąć tą klatkę?')">Usuń</button>
                 </form>
             </td>
@@ -179,7 +180,7 @@
             <td>
                 <form th:action="@{/admin/removeZwierze}" method="post">
                     <input type="hidden" name="id" th:value="${zwierze.idZwierzecia}" />
-                    <button type="submit" class="btn btn-danger btn-sm"
+                    <button type="submit" class="btn btn-danger btn-sm w-100"
                             onclick="return confirm('Czy na pewno chcesz usunąć to zwierzę?')">Usuń</button>
                 </form>
             </td>
