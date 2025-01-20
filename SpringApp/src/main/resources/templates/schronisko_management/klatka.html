@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Klatka - Zmiana danych</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Klatka - Zmiana danych
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/schronisko_management/klatka_potwierdz}" method="post" th:object="${klatka}">
+                        <input type="hidden" name="idKlatki" th:value="${klatka.idKlatki}" />
+                        <input type="hidden" name="idSchroniska" th:value="${klatka.idSchroniska}" />
+                        <div class="form-group">
+                            <label for="pojemnosc">Pojemność:</label>
+                            <input type="number" id="pojemnosc" name="pojemnosc" class="form-control" th:field="*{pojemnosc}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="typ">Typ:</label>
+                            <input type="text" id="typ" name="typ" class="form-control" th:field="*{typ}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3 w-100">Potwierdź</button>
+                    </form>
+                    <a th:href="@{/schronisko_management/powrot/{id}(id=${klatka.idSchroniska})}" class="btn btn-secondary mt-3 w-100">Powrót</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

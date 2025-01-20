@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pracownik - Zmiana danych</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Zmień dane pracownika
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/schronisko_management/pracownik_potwierdz}" method="post" th:object="${pracownik}">
+                        <input type="hidden" name="idPracownika" th:value="${pracownik.idPracownika}" />
+
+                        <!-- Imie -->
+                        <div class="form-group">
+                            <label for="imie">Imię:</label>
+                            <input type="text" id="imie" name="imie" class="form-control" th:field="*{imie}" required>
+                        </div>
+
+                        <!-- Nazwisko -->
+                        <div class="form-group">
+                            <label for="nazwisko">Nazwisko:</label>
+                            <input type="text" id="nazwisko" name="nazwisko" class="form-control" th:field="*{nazwisko}" required>
+                        </div>
+
+                        <!-- Stanowisko -->
+                        <div class="form-group">
+                            <label for="stanowisko">Stanowisko:</label>
+                            <input type="text" id="stanowisko" name="stanowisko" class="form-control" th:field="*{stanowisko}" required>
+                        </div>
+
+                        <!-- Wynagrodzenie -->
+                        <div class="form-group">
+                            <label for="wynagrodzenie">Wynagrodzenie:</label>
+                            <input type="number" step="0.01" id="wynagrodzenie" name="wynagrodzenie" class="form-control" th:field="*{wynagrodzenie}" required>
+                        </div>
+
+                        <!-- Telefon -->
+                        <div class="form-group">
+                            <label for="telefon">Telefon:</label>
+                            <input type="text" id="telefon" name="telefon" class="form-control" th:field="*{telefon}" required>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" class="form-control" th:field="*{email}" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-3 w-100">Potwierdź</button>
+                    </form>
+                    <a th:href="@{/schronisko_management/powrot/{id}(id=${pracownik.idSchroniska})}" class="btn btn-secondary mt-3 w-100">Powrót</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

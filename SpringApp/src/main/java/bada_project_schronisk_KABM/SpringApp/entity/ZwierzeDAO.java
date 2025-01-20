@@ -24,7 +24,7 @@ public class ZwierzeDAO {
     }
 
     public List<Zwierze> list() {
-        String sql = "SELECT id_zwierzecia, imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji, url_zdjecia, plec, TRUNC(SYSDATE - data_przyjecia) AS dni_od_przyjecia FROM Zwierzeta";
+        String sql = "SELECT id_zwierzecia, imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, url_zdjecia, plec, TRUNC(SYSDATE - data_przyjecia) AS dni_od_przyjecia FROM Zwierzeta";
         System.out.println("list " + sql);
         return jdbcTemplate.query(sql, new ZwierzeRowMapper());
     }
@@ -57,7 +57,7 @@ public class ZwierzeDAO {
     }
 
     public Zwierze get(int id) {
-        String sql = "SELECT id_zwierzecia, imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, id_adopcji FROM Zwierzeta WHERE id_zwierzecia = ?";
+        String sql = "SELECT * FROM Zwierzeta WHERE id_zwierzecia = ?";
         try {
             return jdbcTemplate.queryForObject(sql,  new ZwierzeRowMapper(), id);
         } catch (org.springframework.dao.EmptyResultDataAccessException ex) {
@@ -66,7 +66,7 @@ public class ZwierzeDAO {
     }
 
     public void update(Zwierze zwierze) {
-        String sql = "UPDATE Zwierzeta SET imie = ?, gatunek = ?, wiek = ?, stan_zdrowia = ?, data_przyjecia = ?, id_klatki = ?, WHERE id_zwierzecia = ?";
+        String sql = "UPDATE Zwierzeta SET imie = ?, gatunek = ?, wiek = ?, stan_zdrowia = ?, data_przyjecia = ?, id_klatki = ? WHERE id_zwierzecia = ?";
         jdbcTemplate.update(sql, zwierze.getImie(), zwierze.getGatunek(), zwierze.getWiek(), zwierze.getStanZdrowia(), zwierze.getDataPrzyjecia(), zwierze.getIdKlatki(), zwierze.getIdZwierzecia());
     }
 

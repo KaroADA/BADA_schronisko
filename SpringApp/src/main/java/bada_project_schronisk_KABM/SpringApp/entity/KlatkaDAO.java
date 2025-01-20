@@ -42,7 +42,7 @@ public class KlatkaDAO {
     }
 
     public void update(Klatka klatka) {
-        String sql = "UPDATE Klatki SET pojemnosc = ?, typ = ?, id_schroniska = ? = ? WHERE id_klatki = ?";
+        String sql = "UPDATE Klatki SET pojemnosc = ?, typ = ?, id_schroniska = ? WHERE id_klatki = ?";
         jdbcTemplate.update(sql, klatka.getPojemnosc(), klatka.getTyp(), klatka.getIdSchroniska(), klatka.getIdKlatki());
     }
 

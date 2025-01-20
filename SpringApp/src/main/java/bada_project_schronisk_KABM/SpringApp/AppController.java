@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,10 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -158,7 +156,8 @@ public class AppController implements WebMvcConfigurer {
                 // Użytkownik nie jest zalogowany, obsłuż ten przypadek (np. przekierowanie na stronę logowania)
                 return "redirect:/login"; //lub inny odpowiedni adres
             }
-            UserDetails details = (UserDetails) authentication.getPrincipal();
+            CustomUserDetails details = (CustomUserDetails) authentication.getPrincipal();
+            System.out.println(details.getIdSchroniska());
             String username = details.getUsername();
             Uzytkownik uzytkownik = uzytkownikDAO.findByLogin(username);
 
@@ -338,10 +337,10 @@ public class AppController implements WebMvcConfigurer {
             Uzytkownik u = uzytkownikDAO.get(uzytkownik.getIdUzytkownika());
             u.setHaslo(passwordEncoder.encode(uzytkownik.getHaslo()));
             uzytkownikDAO.update(u);
-            return powrot(u.getIdUzytkownika());
+            return user_powrot(u.getIdUzytkownika());
         }
         @RequestMapping("/user_management/powrot/{id}")
-        public String powrot(@PathVariable("id") int id) {
+        public String user_powrot(@PathVariable("id") int id) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication == null || !authentication.isAuthenticated()) {
                 return "redirect:/login";
@@ -355,6 +354,68 @@ public class AppController implements WebMvcConfigurer {
                 }
             }
             return "redirect:/main_user";
+        }
+
+        @RequestMapping("/schronisko_management/powrot/{id}")
+        public String schronisko_powrot(@PathVariable("id") int id) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated()) {
+                return "redirect:/login";
+            }
+            for (GrantedAuthority authority : authentication.getAuthorities()) {
+                if (authority.getAuthority().equals("ROLE_ADMIN")) {
+                    return "redirect:/admin/schronisko_admin/" + id;
+                }
+            }
+            return "redirect:/main_pracownik";
+        }
+        @RequestMapping(value = "/schronisko_management/klatka/{schr}/{id}", method = RequestMethod.GET)
+        @PreAuthorize("hasRole('ADMIN') or  (authentication.principal.idSchroniska == #schr and hasRole('ZARZADZANIE_KLATKA'))")
+        public String showKlatka(@PathVariable("schr") int schr, @PathVariable("id") int id, Model model) {
+            Klatka klatka = klatkaDAO.get(id);
+            if(klatka.getIdSchroniska() != schr) {
+                return "redirect:/error";
+            }
+            model.addAttribute("klatka", klatka);
+            return "schronisko_management/klatka";
+        }
+
+        @RequestMapping("/schronisko_management/klatka_potwierdz")
+        public String confirmKlatka(Klatka klatka) {
+            klatkaDAO.update(klatka);
+            return schronisko_powrot(klatka.getIdSchroniska());
+        }
+
+        @RequestMapping("/schronisko_management/zwierze/{schr}/{id}")
+        @PreAuthorize("hasRole('ADMIN') or (authentication.principal.idSchroniska == #schr and hasRole('ZARZADZANIE_ZWIERZE'))")
+        public String showZwierze(@PathVariable("schr") int schr, @PathVariable("id") int id, Model model) {
+            Zwierze zwierze = zwierzeDAO.get(id);
+            if(klatkaDAO.get(zwierze.getIdKlatki()).getIdSchroniska() != schr) {
+                return "redirect:/error";
+            }
+            model.addAttribute("zwierze", zwierze);
+            return "schronisko_management/zwierze";
+        }
+        @RequestMapping("/schronisko_management/zwierze_potwierdz")
+        public String confirmZwierze(Zwierze zwierze) {
+            zwierzeDAO.update(zwierze);
+            return schronisko_powrot(klatkaDAO.get(zwierze.getIdKlatki()).getIdSchroniska());
+        }
+
+        @RequestMapping("/user_management/pracownik/{schr}/{id}")
+        @PreAuthorize("hasRole('ADMIN') or (authentication.principal.idSchroniska == #schr and hasRole('ZARZADZANIE_PRACOWNIK'))")
+        public String showPracownik(@PathVariable("schr") int schr, @PathVariable("id") int id, Model model) {
+            Pracownik pracownik = pracownikDAO.get(id);
+            if(pracownik.getIdSchroniska() != schr) {
+                return "redirect:/error";
+            }
+            model.addAttribute("pracownik", pracownik);
+            return "user_management/pracownik";
+        }
+        @RequestMapping("/user_management/pracownik_potwierdz")
+        public String confirmPracownik(Pracownik pracownik) {
+            pracownikDAO.update(pracownik);
+            return schronisko_powrot(pracownik.getIdSchroniska());
         }
 
         @RequestMapping("/main_admin")

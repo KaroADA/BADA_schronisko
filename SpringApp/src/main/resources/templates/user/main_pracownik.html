@@ -48,7 +48,8 @@
             <th>Numer klatki</th>
             <th>Pojemność</th>
             <th>Typ</th>
-<!--            <th>ID Schroniska</th>-->
+            <!-- Conditionally render the "Akcje" column header if the user has the 'ZARZADZANIE_KLATKA' role -->
+            <th th:if="${#authentication != null and #authentication.authorities.?[authority == 'ROLE_ZARZADZANIE_KLATKA'].size() > 0}">Akcje</th>
         </tr>
         </thead>
         <tbody>
@@ -56,10 +57,19 @@
             <td th:text="${klatka.idKlatki}"></td>
             <td th:text="${klatka.pojemnosc}"></td>
             <td th:text="${klatka.typ}"></td>
-<!--            <td th:text="${klatka.idSchroniska}"></td>-->
+            <!-- Conditionally render the "Akcje" column content if the user has the 'ZARZADZANIE_KLATKA' role -->
+            <td th:if="${#authentication != null and #authentication.authorities.?[authority == 'ROLE_ZARZADZANIE_KLATKA'].size() > 0}">
+                <a th:href="@{/schronisko_management/klatka/{schr}/{id}(schr=${klatka.idSchroniska}, id=${klatka.idKlatki})}" class="btn btn-primary btn-sm w-100 mb-1">Zarządzaj</a>
+                <form th:action="@{/admin/removeKlatka}" method="post">
+                    <input type="hidden" name="id" th:value="${klatka.idKlatki}" />
+                    <button type="submit" class="btn btn-danger btn-sm w-100"
+                            onclick="return confirm('Czy na pewno chcesz usunąć tą klatkę?')">Usuń</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
+
 </div>
 
 <div class="col-md-12 mt-3">
@@ -74,6 +84,7 @@
             <th>Stan Zdrowia</th>
             <th>Data Przyjęcia</th>
             <th>Numer klatki</th>
+            <th th:if="${#authentication != null and #authentication.authorities.?[authority == 'ROLE_ZARZADZANIE_ZWIERZE'].size() > 0}">Akcje</th>
         </tr>
         </thead>
         <tbody>
@@ -85,12 +96,22 @@
             <td th:text="${zwierze.stanZdrowia}"></td>
             <td th:text="${zwierze.dataPrzyjecia}"></td>
             <td th:text="${zwierze.idKlatki}"></td>
+            <td th:if="${#authentication != null and #authentication.authorities.?[authority == 'ROLE_ZARZADZANIE_ZWIERZE'].size() > 0}">
+                <a th:href="@{/schronisko_management/zwierze/{schr}/{id}(schr=${pracownik.idSchroniska}, id=${zwierze.idZwierzecia})}" class="btn btn-primary btn-sm w-100 mb-1">Zarządzaj</a>
+                <form th:action="@{/admin/removeZwierze}" method="post">
+                    <input type="hidden" name="id" th:value="${zwierze.idZwierzecia}" />
+                    <button type="submit" class="btn btn-danger btn-sm w-100"
+                            onclick="return confirm('Czy na pewno chcesz usunąć to zwierzę?')">Usuń</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
 </div>
 
-<div class="col-md-12 mt-3"> <h2>Twoi współpracownicy</h2>
+<div class="col-md-12 mt-3">
+        <h2 th:if="${#authentication != null and #authentication.authorities.?[authority == 'ROLE_ZARZADZANIE_PRACOWNIK'].size() > 0}">Pracownicy</h2>
+        <h2 th:if="${#authentication != null and #authentication.authorities.?[authority == 'ROLE_ZARZADZANIE_PRACOWNIK'].size() == 0}">Twoi współpracownicy</h2>
     <table class="table table-striped"> <thead>
     <tr>
 <!--        <th>ID</th>-->
@@ -100,6 +121,7 @@
 <!--        <th>Wynagrodzenie</th>-->
         <th>Telefon</th>
         <th>Email</th>
+        <th th:if="${#authentication != null and #authentication.authorities.?[authority == 'ROLE_ZARZADZANIE_PRACOWNIK'].size() > 0}">Akcje</th>
 <!--        <th>ID Uzytkownika</th>-->
 <!--        <th>ID Schroniska</th>-->
     </tr>
@@ -113,6 +135,14 @@
 <!--            <td th:text="${pracownik.wynagrodzenie}"></td>-->
             <td th:text="${pracownik.telefon}"></td>
             <td th:text="${pracownik.email}"></td>
+            <td th:if="${#authentication != null and #authentication.authorities.?[authority == 'ROLE_ZARZADZANIE_PRACOWNIK'].size() > 0}">
+                <a th:href="@{/user_management/pracownik/{schr}/{id}(schr=${pracownik.idSchroniska}, id=${pracownik.idPracownika})}" class="btn btn-primary btn-sm w-100 mb-1">Zarządzaj</a>
+                <form th:action="@{/admin/removeZwierze}" method="post">
+                    <input type="hidden" name="id" th:value="${pracownik.idPracownika}" />
+                    <button type="submit" class="btn btn-danger btn-sm w-100"
+                            onclick="return confirm('Czy na pewno chcesz usunąć tego pracownika?')">Usuń</button>
+                </form>
+            </td>
 <!--            <td th:text="${pracownik.idUzytkownika}"></td>-->
 <!--            <td th:text="${pracownik.idSchroniska}"></td>-->
         </tr>

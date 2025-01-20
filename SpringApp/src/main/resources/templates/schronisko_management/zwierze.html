@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Zwierzę - Zmiana danych</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Zmień dane zwierzęcia
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/schronisko_management/zwierze_potwierdz}" method="post" th:object="${zwierze}">
+                        <input type="hidden" name="idZwierzecia" th:value="${zwierze.idZwierzecia}" />
+
+                        <!-- Imie -->
+                        <div class="form-group">
+                            <label for="imie">Imię:</label>
+                            <input type="text" id="imie" name="imie" class="form-control" th:field="*{imie}" required>
+                        </div>
+
+                        <!-- Gatunek -->
+                        <div class="form-group">
+                            <label for="gatunek">Gatunek:</label>
+                            <input type="text" id="gatunek" name="gatunek" class="form-control" th:field="*{gatunek}" required>
+                        </div>
+
+                        <!-- Wiek -->
+                        <div class="form-group">
+                            <label for="wiek">Wiek:</label>
+                            <input type="number" id="wiek" name="wiek" class="form-control" th:field="*{wiek}" required>
+                        </div>
+
+                        <!-- Stan Zdrowia -->
+                        <div class="form-group">
+                            <label for="stanZdrowia">Stan zdrowia:</label>
+                            <input type="text" id="stanZdrowia" name="stanZdrowia" class="form-control" th:field="*{stanZdrowia}" required>
+                        </div>
+
+                        <!-- Data Przyjęcia -->
+                        <div class="form-group">
+                            <label for="dataPrzyjecia">Data przyjęcia:</label>
+                            <input type="date" id="dataPrzyjecia" name="dataPrzyjecia" class="form-control" th:field="*{dataPrzyjecia}" required>
+                        </div>
+
+                        <!-- Data Adopcji -->
+                        <div class="form-group">
+                            <label for="dataAdopcji">Data adopcji:</label>
+                            <input type="date" id="dataAdopcji" name="dataAdopcji" class="form-control" th:field="*{dataAdopcji}">
+                        </div>
+
+                        <!-- Płeć -->
+                        <div class="form-group">
+                            <label for="plec">Płeć:</label>
+                            <input type="text" id="plec" name="plec" class="form-control" th:field="*{plec}" required>
+                        </div>
+
+                        <!-- URL zdjęcia -->
+                        <div class="form-group">
+                            <label for="urlZdjecia">URL zdjęcia:</label>
+                            <input type="text" id="urlZdjecia" name="urlZdjecia" class="form-control" th:field="*{urlZdjecia}">
+                        </div>
+
+                        <!-- IdKlatki -->
+                        <div class="form-group">
+                            <label for="idKlatki">ID Klatki:</label>
+                            <input type="number" id="idKlatki" name="idKlatki" class="form-control" th:field="*{idKlatki}" required>
+                        </div>
+
+                        <!-- Dni od Przyjęcia -->
+                        <div class="form-group">
+                            <label for="dniOdPrzyjecia">Dni od przyjęcia:</label>
+                            <input type="number" id="dniOdPrzyjecia" name="dniOdPrzyjecia" class="form-control" th:field="*{dniOdPrzyjecia}" readonly>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-3 w-100">Potwierdź</button>
+                    </form>
+                    <a th:href="@{/schronisko_management/powrot/{id}(id=${zwierze.idKlatki})}" class="btn btn-secondary mt-3 w-100">Powrót</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
