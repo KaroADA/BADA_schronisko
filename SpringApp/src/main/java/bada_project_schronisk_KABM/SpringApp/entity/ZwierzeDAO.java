@@ -52,7 +52,7 @@ public class ZwierzeDAO {
     }
 
     public void save(Zwierze zwierze) {
-        String sql = "INSERT INTO Zwierzeta (imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, url_zdjecia, plec) VALUES (?, ?, ?, ?, ?, ?, NULL, ?, ?)";
+        String sql = "INSERT INTO Zwierzeta (imie, gatunek, wiek, stan_zdrowia, data_przyjecia, id_klatki, url_zdjecia, plec) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, zwierze.getImie(), zwierze.getGatunek(), zwierze.getWiek(), zwierze.getStanZdrowia(), zwierze.getDataPrzyjecia(), zwierze.getIdKlatki(), zwierze.getUrlZdjecia(), zwierze.getPlec());
     }
 

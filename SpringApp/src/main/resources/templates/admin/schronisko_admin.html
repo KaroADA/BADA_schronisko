@@ -49,7 +49,7 @@
             <td th:text="${pracownik.idUzytkownika}"></td>
             <td>
                 <a th:href="@{/admin/uzytkownik_admin/{id}(id=${pracownik.idUzytkownika})}" class="btn btn-primary btn-sm w-100 mb-1">Zarządzaj</a>
-                <form th:action="@{/admin/removePracownik}" method="post">
+                <form th:action="@{/user_management/removePracownik/{schr}(schr=${schronisko.idSchroniska})}" method="post">
                     <input type="hidden" name="id" th:value="${pracownik.idPracownika}" />
                     <button type="submit" class="btn btn-danger btn-sm w-100"
                             onclick="return confirm('Czy na pewno chcesz usunąć tego pracownika?')">Usuń</button>
@@ -114,7 +114,7 @@
             <td th:text="${klatka.typ}"></td>
             <td>
                 <a th:href="@{/schronisko_management/klatka/{schr}/{id}(schr=${klatka.idSchroniska}, id=${klatka.idKlatki})}" class="btn btn-primary btn-sm w-100 mb-1">Zarządzaj</a>
-                <form th:action="@{/admin/removeKlatka}" method="post">
+                <form th:action="@{/schronisko_management/removeKlatka/{schr}(schr=${schronisko.idSchroniska})}" method="post">
                     <input type="hidden" name="id" th:value="${klatka.idKlatki}" />
                     <button type="submit" class="btn btn-danger btn-sm w-100"
                             onclick="return confirm('Czy na pewno chcesz usunąć tą klatkę?')">Usuń</button>
@@ -130,7 +130,7 @@
         <a href="#" class="toggle-form" data-target="#klatkaForm">Dodaj Klatkę (rozwiń/zwiń)</a>
     </h5>
     <div id="klatkaForm" class="collapsible-form" style="display: none;">
-        <form th:action="@{/admin/addKlatka}" method="post">
+        <form th:action="@{/schronisko_management/addKlatka}" method="post">
             <input type="hidden" name="idSchroniska" th:value="${schronisko.idSchroniska}" />
             <div class="form-group">
                 <label for="typ">Typ:</label>
@@ -175,7 +175,8 @@
 <!--                <span th:case="*" th:text ="${zwierze.idAdopcji}"></span>-->
 <!--            </td>-->
             <td>
-                <form th:action="@{/admin/removeZwierze}" method="post">
+                <a th:href="@{/schronisko_management/zwierze/{schr}/{id}(schr=${schronisko.idSchroniska}, id=${zwierze.idZwierzecia})}" class="btn btn-primary btn-sm w-100 mb-1">Zarządzaj</a>
+                <form th:action="@{/schronisko_management/removeZwierze/{schr}(schr=${schronisko.idSchroniska})}" method="post">
                     <input type="hidden" name="id" th:value="${zwierze.idZwierzecia}" />
                     <button type="submit" class="btn btn-danger btn-sm w-100"
                             onclick="return confirm('Czy na pewno chcesz usunąć to zwierzę?')">Usuń</button>
@@ -191,7 +192,7 @@
         <a href="#" class="toggle-form" data-target="#zwierzeForm">Dodaj Zwierzę (rozwiń/zwiń)</a>
     </h5>
     <div id="zwierzeForm" class="collapsible-form" style="display: none;">
-        <form th:action="@{/admin/addZwierze}" method="post">
+        <form th:action="@{/schronisko_management/addZwierze}" method="post">
             <div class="form-group">
                 <label for="imie">Imię:</label>
                 <input type="text" class="form-control" id="imie" name="imie" required>

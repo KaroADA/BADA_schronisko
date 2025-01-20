@@ -379,10 +379,22 @@ public class AppController implements WebMvcConfigurer {
             model.addAttribute("klatka", klatka);
             return "schronisko_management/klatka";
         }
+        @RequestMapping("/schronisko_management/klatka/{schr}")
+        @PreAuthorize("hasRole('ADMIN') or (authentication.principal.idSchroniska == #schr and hasRole('ZARZADZANIE_KLATKA'))")
+        public String nowaKlatka(@PathVariable("schr") int schr, Model model) {
+            Klatka klatka = new Klatka();
+            klatka.setIdSchroniska(schr);
+            model.addAttribute("klatka", klatka);
+            return "schronisko_management/klatka";
+        }
 
         @RequestMapping("/schronisko_management/klatka_potwierdz")
         public String confirmKlatka(Klatka klatka) {
-            klatkaDAO.update(klatka);
+            if (klatkaDAO.get(klatka.getIdKlatki()) == null) {
+                klatkaDAO.save(klatka);
+            } else {
+                klatkaDAO.update(klatka);
+            }
             return schronisko_powrot(klatka.getIdSchroniska());
         }
 
@@ -396,9 +408,20 @@ public class AppController implements WebMvcConfigurer {
             model.addAttribute("zwierze", zwierze);
             return "schronisko_management/zwierze";
         }
+        @RequestMapping("/schronisko_management/zwierze/{schr}")
+        @PreAuthorize("hasRole('ADMIN') or (authentication.principal.idSchroniska == #schr and hasRole('ZARZADZANIE_ZWIERZE'))")
+        public String noweZwierze(@PathVariable("schr") int schr, Model model) {
+            Zwierze zwierze = new Zwierze();
+            model.addAttribute("zwierze", zwierze);
+            return "schronisko_management/zwierze";
+        }
         @RequestMapping("/schronisko_management/zwierze_potwierdz")
         public String confirmZwierze(Zwierze zwierze) {
-            zwierzeDAO.update(zwierze);
+            if (zwierzeDAO.get(zwierze.getIdZwierzecia()) == null) {
+                zwierzeDAO.save(zwierze);
+            } else {
+                zwierzeDAO.update(zwierze);
+            }
             return schronisko_powrot(klatkaDAO.get(zwierze.getIdKlatki()).getIdSchroniska());
         }
 
@@ -460,43 +483,54 @@ public class AppController implements WebMvcConfigurer {
             return showAdminPage(model);
         }
 
-        @RequestMapping("/admin/addPracownik")
+        @RequestMapping("/user_management/addPracownik")
         public String addPracownik(Pracownik pracownik, Model model) {
             pracownikDAO.save(pracownik);
             return showSchronisko(pracownik.getIdSchroniska(), model);
         }
-        @RequestMapping("/admin/removePracownik")
-        public String removePracownik(int id, Model model) {
-            int schr = pracownikDAO.get(id).getIdSchroniska();
+        @RequestMapping("/user_management/removePracownik/{schr}")
+        @PreAuthorize("hasRole('ADMIN') or (authentication.principal.idSchroniska == #schr and hasRole('ZARZADZANIE_PRACOWNIK'))")
+        public String removePracownik(@PathVariable("schr") int schr, int id, Model model) {
+            if (schr != pracownikDAO.get(id).getIdSchroniska()) {
+                return "redirect:/error";
+            }
             pracownikDAO.delete(id);
-            return showSchronisko(schr, model);
+            return schronisko_powrot(schr);
         }
 
-        @RequestMapping("/admin/addZwierze")
+        @RequestMapping("/schronisko_management/addZwierze")
+        @PreAuthorize("hasRole('ADMIN') or (authentication.principal.idSchroniska == #schr and hasRole('ZARZADZANIE_ZWIERZE'))")
         public String addZwierze(Zwierze zwierze, Model model) {
             System.out.println("Saving " + zwierze);
             zwierzeDAO.save(zwierze);
             return showSchronisko(klatkaDAO.get(zwierze.getIdKlatki()).getIdSchroniska(), model);
         }
-        @RequestMapping("/admin/removeZwierze")
-        public String removeZwierze(int id, Model model) {
-            int schr = klatkaDAO.get(zwierzeDAO.get(id).getIdKlatki()).getIdSchroniska();
+        @RequestMapping("/schronisko_management/removeZwierze/{schr}")
+        @PreAuthorize("hasRole('ADMIN') or (authentication.principal.idSchroniska == #schr and hasRole('ZARZADZANIE_ZWIERZE'))")
+        public String removeZwierze(@PathVariable("schr") int schr, int id, Model model) {
+            if(schr != klatkaDAO.get(zwierzeDAO.get(id).getIdKlatki()).getIdSchroniska()) {
+                return "redirect:/error";
+            }
             zwierzeDAO.delete(id);
-            return showSchronisko(schr, model);
+            return schronisko_powrot(schr);
         }
 
-        @RequestMapping("/admin/addKlatka")
+        @RequestMapping("/schronisko_management/addKlatka")
+        @PreAuthorize("hasRole('ADMIN') or (authentication.principal.idSchroniska == #schr and hasRole('ZARZADZANIE_KLATKA'))")
         public String addKlatka(Klatka klatka, Model model) {
             System.out.println("Saving " + klatka);
             klatkaDAO.save(klatka);
             return showSchronisko(klatka.getIdSchroniska(), model);
         }
 
-        @RequestMapping("/admin/removeKlatka")
-        public String removeKlatka(int id, Model model) {
-            int schr = klatkaDAO.get(id).getIdSchroniska();
+        @RequestMapping("/schronisko_management/removeKlatka/{schr}")
+        @PreAuthorize("hasRole('ADMIN') or (authentication.principal.idSchroniska == #schr and hasRole('ZARZADZANIE_KLATKA'))")
+        public String removeKlatka(@PathVariable("schr") int schr, int id, Model model) {
+            if (schr != klatkaDAO.get(id).getIdSchroniska()) {
+                return "redirect:/error";
+            }
             klatkaDAO.delete(id);
-            return showSchronisko(schr, model);
+            return schronisko_powrot(schr);
         }
     }
 }
