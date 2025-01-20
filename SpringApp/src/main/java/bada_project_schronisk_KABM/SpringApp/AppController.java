@@ -317,7 +317,26 @@ public class AppController implements WebMvcConfigurer {
             return "redirect:/admin/uzytkownik_admin/" + uzytkownik.getId();
         }
 
+        @RequestMapping("/admin/haslo_admin/{id}")
+        public String showHasloAdmin(@PathVariable("id") int id, Model model) {
+            UzytkownikHaslo uzytkownikHaslo = new UzytkownikHaslo();
+            uzytkownikHaslo.setIdUzytkownika(id);
+            model.addAttribute("uzytkownik", uzytkownikHaslo);
+            return "admin/haslo_admin";
+        }
 
+        @RequestMapping("/admin/nowe_haslo")
+        public String noweHaslo(UzytkownikHaslo uzytkownik, RedirectAttributes redirectAttributes) {
+            System.out.println(uzytkownik);
+            if (!uzytkownik.getHaslo().equals(uzytkownik.getPowtorzHaslo())) {
+                redirectAttributes.addFlashAttribute("haslaNiezgodne", "Hasła muszą być identyczne."); // Dodajemy komunikat flash
+                return "redirect:/haslo_admin/" + uzytkownik.getIdUzytkownika();
+            }
+            Uzytkownik u = uzytkownikDAO.get(uzytkownik.getIdUzytkownika());
+            u.setHaslo(passwordEncoder.encode(uzytkownik.getHaslo()));
+            uzytkownikDAO.update(u);
+            return "redirect:/admin/uzytkownik_admin/" + uzytkownik.getIdUzytkownika();
+        }
 
         @RequestMapping("/main_admin")
         public String showAdminPage(Model model) {

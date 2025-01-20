@@ -36,6 +36,10 @@ public class UzytkownikDAO {
         String sql = "UPDATE Uzytkownicy SET login = ?, haslo = ?, czy_admin = ? WHERE id_uzytkownika = ?";
         jdbcTemplate.update(sql, uzytkownik.getLogin(), uzytkownik.getHaslo(), uzytkownik.getCzy_admin(), uzytkownik.getId());
     }
+    public void update(Uzytkownik uzytkownik) {
+        String sql = "UPDATE Uzytkownicy SET login = ?, haslo = ?, czy_admin = ? WHERE id_uzytkownika = ?";
+        jdbcTemplate.update(sql, uzytkownik.getLogin(), uzytkownik.getHaslo(), uzytkownik.getCzy_admin(), uzytkownik.getIdUzytkownika());
+    }
 
     public Uzytkownik get(int id) {
         String sql = "SELECT * FROM Uzytkownicy WHERE id_uzytkownika = ?";

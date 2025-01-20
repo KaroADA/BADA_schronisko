@@ -14,6 +14,7 @@
 
     <form th:action="@{/admin/updateUser}" method="post" th:object="${uzytkownikZarzadzanie}">
         <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{haslo}" />
 
         <h2>Dane Użytkownika</h2>
         <table class="table">
@@ -23,7 +24,8 @@
             </tr>
             <tr>
                 <th>Hasło</th>
-                <td><input type="text" class="form-control" th:field="*{haslo}" required/></td>
+                <td><span th:text="${uzytkownikZarzadzanie.haslo}"></span></td>
+                <td><a th:href="@{/admin/haslo_admin/{id}(id=${uzytkownikZarzadzanie.id})}" class="btn btn-secondary mt-3 w-100">Zmień</a></td>
             </tr>
             <tr>
                 <th>Czy Admin</th>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Zmiana hasła</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Zmień hasło
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/admin/nowe_haslo}" method="post" th:object="${uzytkownik}">
+                        <input type="hidden" name="idUzytkownika" th:value="${uzytkownik.idUzytkownika}" />
+                        <div class="form-group">
+                            <label for="haslo">Hasło:</label>
+                            <input type="password" id="haslo" name="haslo" class="form-control" th:field="*{haslo}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="powtorzHaslo">Potwierdź Hasło:</label>
+                            <input type="password" id="powtorzHaslo" name="powtorzHaslo" class="form-control" required>
+                        </div>
+                        <div th:if="${haslaNiezgodne}" class="alert alert-danger" th:text="${haslaNiezgodne}"></div>
+                        <button type="submit" class="btn btn-primary">Potwierdź</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
