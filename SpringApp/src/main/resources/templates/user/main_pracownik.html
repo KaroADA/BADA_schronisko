@@ -24,9 +24,10 @@
 <div class="container">
 
     <div class="col-md-12 mt-5">
-        <h1 th:text="'Witaj, ' + ${pracownik.imie}"></h1>
-        <p th:text="'Stanowisko: ' + ${pracownik.stanowisko}"></p>
-        <p th:text="'Wynagrodzenie: ' + ${pracownik.wynagrodzenie}"></p>
+        <h1 class="mb-3">Witaj <a style="color:lightskyblue; text-transform:capitalize"><b>[[${pracownik.imie}]]</b></a></h1>
+<!--        <h1 th:text="'Witaj, ' + ${pracownik.imie}"></h1>-->
+        <p th:text="'Twoje stanowisko: ' + ${pracownik.stanowisko}"></p>
+        <p th:text="'Twoje wynagrodzenie: ' + ${pracownik.wynagrodzenie}"></p>
     </div>
 
     <div class="col-md-12 mt-5">
@@ -36,16 +37,15 @@
         <p th:text="'Telefon: ' + ${schronisko.telefon}"></p>
         <p th:text="'Data otwarcia: ' + ${#dates.format(schronisko.dataOtwarcia, 'yyyy-MM-dd')}"></p>
     </div>
-</div>
 <div class="col-md-12 mt-3">
     <h2>Klatki</h2>
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>ID</th>
+            <th>Numer klatki</th>
             <th>Pojemność</th>
             <th>Typ</th>
-            <th>ID Schroniska</th>
+<!--            <th>ID Schroniska</th>-->
         </tr>
         </thead>
         <tbody>
@@ -53,7 +53,7 @@
             <td th:text="${klatka.idKlatki}"></td>
             <td th:text="${klatka.pojemnosc}"></td>
             <td th:text="${klatka.typ}"></td>
-            <td th:text="${klatka.idSchroniska}"></td>
+<!--            <td th:text="${klatka.idSchroniska}"></td>-->
         </tr>
         </tbody>
     </table>
@@ -70,7 +70,7 @@
             <th>Wiek</th>
             <th>Stan Zdrowia</th>
             <th>Data Przyjęcia</th>
-            <th>ID Klatki</th>
+            <th>Numer klatki</th>
         </tr>
         </thead>
         <tbody>
@@ -87,34 +87,35 @@
     </table>
 </div>
 
-<div class="col-md-12 mt-3"> <h2>Pracownicy</h2>
+<div class="col-md-12 mt-3"> <h2>Twoi współpracownicy</h2>
     <table class="table table-striped"> <thead>
     <tr>
-        <th>ID</th>
+<!--        <th>ID</th>-->
         <th>Imię</th>
         <th>Nazwisko</th>
         <th>Stanowisko</th>
-        <th>Wynagrodzenie</th>
+<!--        <th>Wynagrodzenie</th>-->
         <th>Telefon</th>
         <th>Email</th>
-        <th>ID Uzytkownika</th>
-        <th>ID Schroniska</th>
+<!--        <th>ID Uzytkownika</th>-->
+<!--        <th>ID Schroniska</th>-->
     </tr>
     </thead>
         <tbody>
         <tr th:each="pracownik : ${pracownicy}">
-            <td th:text="${pracownik.idPracownika}"></td>
+<!--            <td th:text="${pracownik.idPracownika}"></td>-->
             <td th:text="${pracownik.imie}"></td>
             <td th:text="${pracownik.nazwisko}"></td>
             <td th:text="${pracownik.stanowisko}"></td>
-            <td th:text="${pracownik.wynagrodzenie}"></td>
+<!--            <td th:text="${pracownik.wynagrodzenie}"></td>-->
             <td th:text="${pracownik.telefon}"></td>
             <td th:text="${pracownik.email}"></td>
-            <td th:text="${pracownik.idUzytkownika}"></td>
-            <td th:text="${pracownik.idSchroniska}"></td>
+<!--            <td th:text="${pracownik.idUzytkownika}"></td>-->
+<!--            <td th:text="${pracownik.idSchroniska}"></td>-->
         </tr>
         </tbody>
     </table>
+</div>
 </div>
 </body>
 </html>
